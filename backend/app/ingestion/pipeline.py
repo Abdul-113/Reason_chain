@@ -1,13 +1,13 @@
 """
-Ingestion Pipeline — Central orchestrator for PostgreSQL -> Neo4j ingestion.
+Ingestion Pipeline — Central orchestrator for PostgreSQL -> Canonical Model -> Neo4j ingestion.
 
 Flow:
     connect_to_postgres()
     -> extract_all()
     -> normalize()
     -> resolve_entities()
-    -> write_nodes_to_neo4j()
-    -> write_relationships_to_neo4j()
+    -> build_canonical_graph_payload()
+    -> write_canonical_payload_to_neo4j()
     -> validate_graph()
     -> return_ingestion_summary()
 """
@@ -37,20 +37,7 @@ from app.ingestion.normalizer import (
     normalize_relationships,
     find_potential_duplicates,
 )
-from app.ingestion.mapper import (
-    map_countries_to_nodes,
-    map_companies_to_nodes,
-    map_suppliers_to_nodes,
-    map_people_to_nodes,
-    map_contracts_to_nodes,
-    map_sanctions_to_nodes,
-    map_supplier_relationships,
-    map_director_relationships,
-    map_ownership_relationships,
-    map_contract_relationships,
-    map_sanction_relationships,
-    map_located_in_relationships,
-)
+from app.ingestion.mapper import build_canonical_graph_payload
 from app.ingestion.neo4j_writer import Neo4jWriter
 
 logger = logging.getLogger("reasonchain.ingestion")
@@ -73,7 +60,7 @@ def is_ingestion_running() -> bool:
 def run_ingestion_pipeline() -> Dict[str, Any]:
     """
     Execute the full ingestion pipeline:
-    PostgreSQL -> Extraction -> Normalization -> Entity Resolution -> Neo4j
+    PostgreSQL -> Extraction -> Normalization -> Entity Resolution -> Canonical Model -> Neo4j
     """
     global _last_ingestion_result, _ingestion_running
 
@@ -159,38 +146,38 @@ def run_ingestion_pipeline() -> Dict[str, Any]:
         logger.info(f"[INGESTION] Entity resolution found {duplicates_found} potential duplicate groups")
 
         # ===================================================
-        # PHASE 5: MAPPING
+        # PHASE 5: CANONICAL MODEL MAPPING
         # ===================================================
-        logger.info("[INGESTION] Phase 5: Mapping to Neo4j graph model")
+        logger.info("[INGESTION] Phase 5: Mapping to Canonical ReasonChain domain model")
 
-        all_nodes = []
-        all_nodes.extend(map_countries_to_nodes(norm_countries))
-        all_nodes.extend(map_companies_to_nodes(norm_companies))
-        all_nodes.extend(map_suppliers_to_nodes(norm_suppliers))
-        all_nodes.extend(map_people_to_nodes(norm_people))
-        all_nodes.extend(map_contracts_to_nodes(norm_contracts))
-        all_nodes.extend(map_sanctions_to_nodes(norm_sanctions))
+        canonical_payload = build_canonical_graph_payload(
+            norm_countries=norm_countries,
+            norm_companies=norm_companies,
+            norm_suppliers=norm_suppliers,
+            norm_people=norm_people,
+            norm_contracts=norm_contracts,
+            norm_sanctions=norm_sanctions,
+            norm_directors=norm_directors,
+            norm_supplier_rels=norm_supplier_rels,
+            norm_ownership=norm_ownership,
+        )
 
-        all_rels = []
-        all_rels.extend(map_supplier_relationships(norm_supplier_rels))
-        all_rels.extend(map_director_relationships(norm_directors))
-        all_rels.extend(map_ownership_relationships(norm_ownership))
-        all_rels.extend(map_contract_relationships(norm_contracts))
-        all_rels.extend(map_sanction_relationships(norm_sanctions))
-        all_rels.extend(map_located_in_relationships(norm_companies, norm_suppliers, norm_people))
-
-        logger.info(f"[INGESTION] Mapped {len(all_nodes)} nodes and {len(all_rels)} relationships")
+        logger.info(
+            f"[INGESTION] Constructed canonical payload: {len(canonical_payload.entities)} entities, "
+            f"{len(canonical_payload.relationships)} relationships"
+        )
 
         # ===================================================
         # PHASE 6: WRITE TO NEO4J
         # ===================================================
-        logger.info("[INGESTION] Phase 6: Writing to Neo4j")
+        logger.info("[INGESTION] Phase 6: Writing canonical model to Neo4j")
 
         writer = Neo4jWriter()
         writer.ensure_constraints()
 
-        nodes_written = writer.write_nodes(all_nodes)
-        rels_written = writer.write_relationships(all_rels)
+        write_res = writer.write_canonical_payload(canonical_payload)
+        nodes_written = write_res["nodes_written"]
+        rels_written = write_res["relationships_written"]
 
         logger.info(f"[INGESTION] Wrote {nodes_written} nodes and {rels_written} relationships to Neo4j")
 

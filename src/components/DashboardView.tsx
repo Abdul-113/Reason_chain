@@ -157,6 +157,7 @@ export default function DashboardView({ onLogout, activeNavTab: externalTab, set
   const [internalTab, setInternalTab] = useState('Overview');
   const activeTab = externalTab || internalTab;
   const setActiveTab = setExternalTab || setInternalTab;
+  const [graphInitialSource, setGraphInitialSource] = useState<string>('all');
 
   const [selectedInvestigation, setSelectedInvestigation] = useState<any | null>(null);
 
@@ -330,7 +331,12 @@ export default function DashboardView({ onLogout, activeNavTab: externalTab, set
               onNavigateToProofs={() => setActiveTab('Proofs')}
             />
           ) : activeTab === 'Data Sources' ? (
-            <DataSourcesView />
+            <DataSourcesView
+              onNavigateToGraph={(source) => {
+                if (source) setGraphInitialSource(source);
+                setActiveTab('Knowledge Graph');
+              }}
+            />
           ) : activeTab === 'Entities' ? (
             <EntitiesView />
           ) : activeTab === 'Proofs' ? (
@@ -342,7 +348,7 @@ export default function DashboardView({ onLogout, activeNavTab: externalTab, set
           ) : activeTab === 'Audit Log' ? (
             <AuditLogView />
           ) : activeTab === 'Knowledge Graph' ? (
-            <Neo4jGraphViewer />
+            <Neo4jGraphViewer initialSource={graphInitialSource} />
           ) : (
             /* OVERVIEW TAB: HIGH-LEVEL ENTERPRISE COMMAND CENTER */
             <>

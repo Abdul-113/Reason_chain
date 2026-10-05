@@ -36,3 +36,8 @@ backend/*.db
 
 # Scratch files
 scratch/
+
+# Firebase service-account credentials (NEVER commit)
+*-firebase-adminsdk-*.json
+firebase-service-account.json
+*-service-account*.json
