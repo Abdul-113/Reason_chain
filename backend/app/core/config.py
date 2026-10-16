@@ -19,7 +19,8 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
 
     # PostgreSQL Connection Settings
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+    NEON_DATABASE_URL: str = os.getenv("NEON_DATABASE_URL", "")
+    DATABASE_URL: str = os.getenv("DATABASE_URL") or os.getenv("NEON_DATABASE_URL", "")
     POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "localhost")
     POSTGRES_PORT: int = int(os.getenv("POSTGRES_PORT", 5432))
     POSTGRES_DB: str = os.getenv("POSTGRES_DB", "reasonchain_demo")

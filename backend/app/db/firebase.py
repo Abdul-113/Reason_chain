@@ -4,6 +4,7 @@ Handles server-side Firebase Admin SDK lifecycle, RTDB references, health checks
 """
 
 import os
+import time
 import logging
 from typing import Optional, Dict, Any, List
 import firebase_admin
@@ -121,9 +122,16 @@ class FirebaseConnection:
         cls.get_app()
         return db.reference(path)
 
+    _paths_cache: Optional[List[Dict[str, Any]]] = None
+    _paths_cache_time: float = 0.0
+
     @classmethod
-    def list_paths(cls) -> List[Dict[str, Any]]:
+    def list_paths(cls, force_refresh: bool = False) -> List[Dict[str, Any]]:
         """List top-level paths/collections and their child counts."""
+        now = time.time()
+        if not force_refresh and cls._paths_cache and (now - cls._paths_cache_time < 300.0):
+            return cls._paths_cache
+
         cls.get_app()
         root_ref = db.reference("/")
         shallow_data = root_ref.get(shallow=True)
@@ -164,6 +172,8 @@ class FirebaseConnection:
                     "description": desc,
                 })
 
+        cls._paths_cache = results
+        cls._paths_cache_time = time.time()
         return results
 
     @classmethod

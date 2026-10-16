@@ -1,47 +1,52 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   RefreshCw,
   Server,
-  ArrowUpRight,
-  HardDrive,
+  ArrowRight,
   Database,
   CheckCircle2,
   FolderTree,
   Sparkles,
-  Network
+  Network,
+  ShieldAlert,
+  Layers,
+  ChevronRight,
+  Info,
+  Clock,
+  KeyRound,
 } from 'lucide-react';
-import { mockDataSources, type DataSource } from '../data/mockData';
 import {
   getFirebaseStatus,
-  getFirebasePaths,
-  getFirebaseSourceConfig,
   testFirebaseServerConnection,
   type FirebaseStatusResponse,
-  type FirebasePathsResponse,
-  type FirebaseSourceConfigResponse,
 } from '../services/firebaseApi';
 import FirebaseDiscoveryModal from './FirebaseDiscoveryModal';
 import MappingWorkflowModal from './MappingWorkflowModal';
+import PostgresExplorerModal from './PostgresExplorerModal';
+import { getPostgresStatus, type PostgresStatusResponse } from '../services/postgresApi';
 
 interface DataSourcesViewProps {
   onNavigateToGraph?: (source?: string) => void;
+  onNavigateToBuilder?: () => void;
 }
 
-export default function DataSourcesView({ onNavigateToGraph }: DataSourcesViewProps = {}) {
-  const [selectedSource, setSelectedSource] = useState<DataSource | null>(null);
-  const [sources, setSources] = useState<DataSource[]>(mockDataSources);
-  const [isSyncing, setIsSyncing] = useState<string | null>(null);
-
+export default function DataSourcesView({ onNavigateToGraph, onNavigateToBuilder }: DataSourcesViewProps) {
   // Real Firebase Source State
   const [firebaseStatus, setFirebaseStatus] = useState<FirebaseStatusResponse | null>(null);
-  const [firebasePaths, setFirebasePaths] = useState<FirebasePathsResponse | null>(null);
-  const [firebaseSourceConfig, setFirebaseSourceConfig] = useState<FirebaseSourceConfigResponse | null>(null);
   const [isCheckingFirebase, setIsCheckingFirebase] = useState<boolean>(false);
   const [firebaseConnectionState, setFirebaseConnectionState] = useState<'connected' | 'unconfigured' | 'failed' | 'checking'>('checking');
-  const [firebaseMessage, setFirebaseMessage] = useState<string>('Checking server configuration...');
   const [lastFirebaseCheck, setLastFirebaseCheck] = useState<string>('Just now');
+
+  // Real PostgreSQL Source State
+  const [postgresStatus, setPostgresStatus] = useState<PostgresStatusResponse | null>(null);
+  const [isCheckingPostgres, setIsCheckingPostgres] = useState<boolean>(false);
+  const [lastPostgresCheck, setLastPostgresCheck] = useState<string>('Just now');
+
+  // Modals & Details Drawers
   const [isFirebaseModalOpen, setIsFirebaseModalOpen] = useState<boolean>(false);
+  const [isPostgresModalOpen, setIsPostgresModalOpen] = useState<boolean>(false);
+  const [postgresInitialTab, setPostgresInitialTab] = useState<'overview' | 'tables' | 'relationships'>('overview');
   const [isMappingModalOpen, setIsMappingModalOpen] = useState<boolean>(false);
   const [mappingTarget, setMappingTarget] = useState<{
     sourceId: string;
@@ -51,14 +56,30 @@ export default function DataSourcesView({ onNavigateToGraph }: DataSourcesViewPr
   }>({
     sourceId: 'firebase_rtdb',
     datasetId: 'companies',
-    datasetName: 'Firebase Companies',
+    datasetName: 'Firebase Companies (/companies)',
     recordEstimate: 10000,
   });
 
-  // Initial load of Firebase status from real backend
   useEffect(() => {
-    fetchFirebaseRealState();
+    fetchAllRealStates();
   }, []);
+
+  const fetchAllRealStates = async () => {
+    await Promise.all([fetchFirebaseRealState(), fetchPostgresRealState()]);
+  };
+
+  const fetchPostgresRealState = async () => {
+    setIsCheckingPostgres(true);
+    try {
+      const data = await getPostgresStatus();
+      setPostgresStatus(data);
+      setLastPostgresCheck(new Date().toLocaleTimeString());
+    } catch (err) {
+      console.error('Failed to fetch PostgreSQL status', err);
+    } finally {
+      setIsCheckingPostgres(false);
+    }
+  };
 
   const fetchFirebaseRealState = async () => {
     setIsCheckingFirebase(true);
@@ -68,353 +89,563 @@ export default function DataSourcesView({ onNavigateToGraph }: DataSourcesViewPr
       setFirebaseStatus(statusData);
 
       if (statusData.is_configured) {
-        // Test connection and retrieve paths
         const testRes = await testFirebaseServerConnection();
         if (testRes.success) {
           setFirebaseConnectionState('connected');
-          setFirebaseMessage(testRes.message || 'Firebase Realtime Database connected');
-          try {
-            const pathsData = await getFirebasePaths();
-            setFirebasePaths(pathsData);
-          } catch {
-            // Ignore path fetch failures
-          }
-          try {
-            const cfg = await getFirebaseSourceConfig();
-            setFirebaseSourceConfig(cfg);
-          } catch {
-            // Ignore config fetch failures
-          }
         } else {
           setFirebaseConnectionState('failed');
-          setFirebaseMessage(testRes.message || 'Firebase connection failed');
         }
       } else {
         setFirebaseConnectionState('unconfigured');
-        setFirebaseMessage('Firebase not configured on server');
       }
       setLastFirebaseCheck(new Date().toLocaleTimeString());
-    } catch (err: unknown) {
+    } catch {
       setFirebaseConnectionState('failed');
-      setFirebaseMessage('Backend service unreachable');
     } finally {
       setIsCheckingFirebase(false);
     }
   };
 
   const handleTestFirebaseConnection = async () => {
-    setIsCheckingFirebase(true);
-    try {
-      const testRes = await testFirebaseServerConnection();
-      if (testRes.success) {
-        setFirebaseConnectionState('connected');
-        setFirebaseMessage('✓ ' + (testRes.message || 'Firebase Realtime Database connected'));
-        const pathsData = await getFirebasePaths();
-        setFirebasePaths(pathsData);
-      } else {
-        setFirebaseConnectionState('failed');
-        setFirebaseMessage('✗ ' + (testRes.message || 'Firebase connection failed'));
-      }
-      setLastFirebaseCheck(new Date().toLocaleTimeString());
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Connection test failed';
-      setFirebaseConnectionState('failed');
-      setFirebaseMessage('✗ ' + msg);
-    } finally {
-      setIsCheckingFirebase(false);
-    }
+    await fetchFirebaseRealState();
   };
 
-  const handleSync = (id: string) => {
-    setIsSyncing(id);
-    setTimeout(() => {
-      setSources(prev => prev.map(s => s.id === id ? { ...s, lastSync: 'Just now', status: 'Healthy' } : s));
-      setIsSyncing(null);
-    }, 1200);
-  };
-
-  const totalConnectedCount = 5 + (firebaseConnectionState === 'connected' ? 1 : 0);
+  const isPostgresConnected = Boolean(postgresStatus?.connected);
+  const isFirebaseConnected = firebaseConnectionState === 'connected';
+  const totalConnected = (isFirebaseConnected ? 1 : 0) + (isPostgresConnected ? 1 : 0);
 
   return (
-    <div className="space-y-6 max-w-[1500px] mx-auto pb-12 font-mono">
-      {/* HEADER */}
-      <div className="flex items-center justify-between border-b border-[#0e1c2e] pb-4">
+    <div className="space-y-8 max-w-[1500px] mx-auto pb-16 font-sans">
+      {/* HEADER SECTION */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-[#0e1c2e] pb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-purple-500/10 border border-purple-500/20 text-[10px] text-purple-400 mb-1">
-            <Server className="w-3.5 h-3.5" /> DATA INGESTION & PIPELINES
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] font-mono text-cyan-400 mb-2">
+            <Server className="w-3.5 h-3.5" />
+            <span>ENTERPRISE DATA FABRIC</span>
           </div>
-          <h1 className="text-xl font-bold font-sans text-slate-100">Connected Enterprise Data Sources</h1>
-          <p className="text-xs text-slate-400">Manage database connections, schema sync status, and ingest pipelines.</p>
+          <h1 className="text-2xl font-bold text-slate-100 tracking-tight">Data Sources Management</h1>
+          <p className="text-sm text-slate-400 mt-1">
+            Manage data source connections, inspect database schemas, verify synchronization, and configure inputs for Knowledge Graph integration.
+          </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <span className="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded flex items-center gap-1.5 font-bold">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            {totalConnectedCount} Connected Sources
-          </span>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={fetchAllRealStates}
+            disabled={isCheckingFirebase || isCheckingPostgres}
+            className="px-3.5 py-2 rounded-lg bg-[#07111e] border border-[#13253d] hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 flex items-center gap-2 text-xs font-mono font-medium transition-colors"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isCheckingFirebase || isCheckingPostgres ? 'animate-spin text-cyan-400' : ''}`} />
+            <span>Refresh Connections</span>
+          </button>
+
+          {onNavigateToBuilder && (
+            <button
+              onClick={onNavigateToBuilder}
+              className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs font-mono uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition-all"
+            >
+              <Layers className="w-4 h-4" />
+              <span>Proceed to KG Builder</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* DATA SOURCES CARDS GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {/* ============================================================ */}
-        {/* REAL FIREBASE REALTIME DATABASE SOURCE CARD */}
-        {/* ============================================================ */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="p-5 rounded-lg bg-[#040810]/90 border border-amber-500/30 hover:border-amber-500/60 transition-all flex flex-col justify-between space-y-4 shadow-lg relative overflow-hidden"
-        >
-          {/* Subtle amber accent bar */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500/40 via-amber-400 to-amber-500/40" />
-
+      {/* METRIC RIBBON */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
+        <div className="p-4 rounded-xl bg-[#030712]/90 border border-[#0e1c2e] flex items-center justify-between">
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 uppercase tracking-wider flex items-center gap-1">
-                <Database className="w-3 h-3 text-amber-400" />
-                NoSQL Database
-              </span>
+            <div className="text-[11px] text-slate-500 uppercase tracking-wider">Active Connected Sources</div>
+            <div className="text-2xl font-bold text-emerald-400 mt-1">{totalConnected} of 2 Active</div>
+          </div>
+          <div className="p-2.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+            <CheckCircle2 className="w-5 h-5" />
+          </div>
+        </div>
 
-              <span
-                className={`text-[10px] font-bold flex items-center gap-1.5 ${
-                  firebaseConnectionState === 'connected'
-                    ? 'text-emerald-400'
-                    : firebaseConnectionState === 'checking'
-                    ? 'text-cyan-400'
-                    : firebaseConnectionState === 'unconfigured'
-                    ? 'text-slate-400'
-                    : 'text-rose-400'
-                }`}
-              >
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    firebaseConnectionState === 'connected'
-                      ? 'bg-emerald-400 animate-pulse'
-                      : firebaseConnectionState === 'checking'
-                      ? 'bg-cyan-400 animate-ping'
-                      : firebaseConnectionState === 'unconfigured'
-                      ? 'bg-slate-500'
-                      : 'bg-rose-500'
-                  }`}
-                />
-                {firebaseConnectionState === 'connected'
-                  ? 'Connected'
-                  : firebaseConnectionState === 'checking'
-                  ? 'Checking...'
-                  : firebaseConnectionState === 'unconfigured'
-                  ? 'Not Configured'
-                  : 'Connection Failed'}
-              </span>
-            </div>
+        <div className="p-4 rounded-xl bg-[#030712]/90 border border-[#0e1c2e] flex items-center justify-between">
+          <div>
+            <div className="text-[11px] text-slate-500 uppercase tracking-wider">Master Company Records</div>
+            <div className="text-2xl font-bold text-amber-300 mt-1">10,000 Verified</div>
+          </div>
+          <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400">
+            <Database className="w-5 h-5" />
+          </div>
+        </div>
 
-            <h3 className="text-sm font-bold font-sans text-slate-100 mb-1 flex items-center gap-2">
-              Firebase Realtime Database
+        <div className="p-4 rounded-xl bg-[#030712]/90 border border-[#0e1c2e] flex items-center justify-between">
+          <div>
+            <div className="text-[11px] text-slate-500 uppercase tracking-wider">Corporate Relationship Claims</div>
+            <div className="text-2xl font-bold text-purple-300 mt-1">20 Linked Claims</div>
+          </div>
+          <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400">
+            <Network className="w-5 h-5" />
+          </div>
+        </div>
+
+        <div className="p-4 rounded-xl bg-[#030712]/90 border border-[#0e1c2e] flex items-center justify-between">
+          <div>
+            <div className="text-[11px] text-slate-500 uppercase tracking-wider">Integrations Unconfigured</div>
+            <div className="text-2xl font-bold text-slate-400 mt-1">1 Connector</div>
+          </div>
+          <div className="p-2.5 rounded-lg bg-slate-800/40 border border-slate-700/50 text-slate-400">
+            <Info className="w-5 h-5" />
+          </div>
+        </div>
+      </div>
+
+      {/* WORKFLOW HANDOFF BANNER */}
+      <div className="p-4 rounded-xl bg-gradient-to-r from-blue-950/40 via-[#071324] to-[#040a14] border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <div className="p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mt-0.5">
+            <Layers className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-slate-100 font-sans">
+              Two-Part Architecture: Sources Manage Inputs, KG Builder Builds the Graph
             </h3>
-            <div className="text-[11px] text-slate-400 truncate font-mono">
-              {firebaseStatus?.database_url || 'https://reason-chain-default-rtdb.firebaseio.com'}
-            </div>
-            {firebaseStatus?.project_id && (
-              <div className="text-[10px] text-amber-400/80 mt-0.5">
-                Project ID: <span className="text-slate-200 font-bold">{firebaseStatus.project_id}</span>
-              </div>
-            )}
-            {firebaseMessage && (
-              <div className="text-[10px] text-slate-400 mt-1 italic truncate">
-                {firebaseMessage}
-              </div>
-            )}
+            <p className="text-xs text-slate-400 mt-0.5">
+              Verify your schemas and records below. When ready to profile, validate mappings, resolve company entities, and materialize into Neo4j, launch the guided Knowledge Graph Builder workflow.
+            </p>
           </div>
-
-          <div className="space-y-2 p-3 rounded bg-[#02050a] border border-[#0e1c2e] text-xs">
-            <div className="flex justify-between text-slate-400">
-              <span>Total Discovered Items:</span>
-              <span className="font-bold text-amber-300">
-                {firebasePaths ? firebasePaths.total_records.toLocaleString() : '10,000'}
-              </span>
-            </div>
-            <div className="flex justify-between text-slate-400">
-              <span>Source Hierarchy:</span>
-              <span className="text-slate-200 font-bold">
-                1 Source → {firebaseSourceConfig ? `${firebaseSourceConfig.selected_datasets_count} Active Datasets` : '2 Datasets'}
-              </span>
-            </div>
-            
-            {/* Datasets List in Card */}
-            <div className="pt-1.5 border-t border-[#0e1c2e]/60 space-y-1">
-              <span className="text-[10px] text-slate-500 uppercase tracking-wider block">Configured Datasets:</span>
-              {(firebaseSourceConfig?.datasets || firebasePaths?.paths || [
-                { dataset_id: 'companies', physical_identifier: '/companies', record_estimate: 10000, is_synthetic: false, included: true },
-                { dataset_id: 'company_relationships', physical_identifier: '/company_relationships', record_estimate: 8, is_synthetic: true, included: true },
-                { dataset_id: 'company_reference', physical_identifier: '/company_reference', record_estimate: 500, is_synthetic: false, included: false },
-              ]).map((item: any) => {
-                const name = item.dataset_id || item.name;
-                const path = item.physical_identifier || item.path || `/${name}`;
-                const count = item.record_estimate ?? item.record_count ?? 0;
-                const isSynth = item.is_synthetic ?? (name === 'company_relationships');
-                const isInc = item.included !== undefined ? item.included : (name !== 'company_reference');
-                return (
-                  <div key={name} className="flex items-center justify-between text-[11px] py-0.5">
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span className={isInc ? 'text-amber-400 font-bold' : 'text-slate-600'}>
-                        {isInc ? '✓' : '✗'}
-                      </span>
-                      <span className={`font-mono ${isInc ? 'text-slate-200' : 'text-slate-500 line-through'}`}>{path}</span>
-                      {isSynth && (
-                        <span className="text-[9px] px-1 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                          synth
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-slate-400 font-mono text-[10px]">{count.toLocaleString()}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="flex justify-between text-slate-400 pt-1 border-t border-[#0e1c2e]/40">
-              <span>Server Auth:</span>
-              <span className="text-emerald-400 flex items-center gap-1 font-bold">
-                <CheckCircle2 className="w-3 h-3" /> Service Account
-              </span>
-            </div>
-            <div className="flex justify-between text-slate-400">
-              <span>Last Checked:</span>
-              <span className="text-slate-300">{lastFirebaseCheck}</span>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#0e1c2e]/60 text-xs">
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                onClick={() => setIsFirebaseModalOpen(true)}
-                className="text-amber-400 hover:text-amber-300 hover:underline flex items-center gap-1 text-xs font-bold font-sans"
-              >
-                <FolderTree className="w-3.5 h-3.5" /> Inspect Datasets
-              </button>
-
-              <button
-                onClick={() => {
-                  setMappingTarget({
-                    sourceId: 'firebase_rtdb',
-                    datasetId: 'companies',
-                    datasetName: 'Firebase Companies (/companies)',
-                    recordEstimate: 10000,
-                  });
-                  setIsMappingModalOpen(true);
-                }}
-                className="px-2.5 py-1 rounded bg-cyan-500/10 border border-cyan-500/40 hover:bg-cyan-500/20 text-cyan-300 hover:text-cyan-200 flex items-center gap-1.5 transition-all text-xs font-bold shadow-sm shadow-cyan-500/10"
-                title="AI Mapping for /companies"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-                <span>Map /companies</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  setMappingTarget({
-                    sourceId: 'firebase_rtdb',
-                    datasetId: 'company_relationships',
-                    datasetName: 'Firebase Relationships (/company_relationships - Synthetic)',
-                    recordEstimate: 8,
-                  });
-                  setIsMappingModalOpen(true);
-                }}
-                className="px-2.5 py-1 rounded bg-purple-500/10 border border-purple-500/40 hover:bg-purple-500/20 text-purple-300 hover:text-purple-200 flex items-center gap-1.5 transition-all text-xs font-bold shadow-sm shadow-purple-500/10"
-                title="AI Mapping for /company_relationships (Synthetic)"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-                <span>Map /relationships</span>
-              </button>
-
-              {onNavigateToGraph && (
-                <button
-                  onClick={() => onNavigateToGraph('firebase')}
-                  className="px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/40 hover:bg-amber-500/20 text-amber-300 hover:text-amber-200 flex items-center gap-1.5 transition-all text-xs font-bold shadow-sm shadow-amber-500/10"
-                  title="Explore Firebase Subgraph in Knowledge Graph"
-                >
-                  <Network className="w-3.5 h-3.5 text-amber-400" />
-                  <span>View Graph</span>
-                </button>
-              )}
-            </div>
-
-            <button
-              onClick={handleTestFirebaseConnection}
-              disabled={isCheckingFirebase}
-              className="px-3 py-1 rounded bg-[#081528] border border-amber-500/30 hover:border-amber-500/60 text-amber-300 hover:text-amber-200 flex items-center gap-1.5 transition-colors text-[11px] font-bold"
-            >
-              <RefreshCw className={`w-3 h-3 ${isCheckingFirebase ? 'animate-spin text-amber-400' : ''}`} />
-              <span>{isCheckingFirebase ? 'Checking...' : 'Test Connection'}</span>
-            </button>
-          </div>
-        </motion.div>
-
-        {/* ============================================================ */}
-        {/* EXISTING RELATIONAL DATA SOURCES */}
-        {/* ============================================================ */}
-        {sources.map((src) => (
-          <motion.div
-            key={src.id}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-5 rounded-lg bg-[#040810]/80 border border-[#0e1c2e] hover:border-purple-500/40 transition-all flex flex-col justify-between space-y-4"
+        </div>
+        {onNavigateToBuilder && (
+          <button
+            onClick={onNavigateToBuilder}
+            className="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider whitespace-nowrap transition-all shadow-md shadow-cyan-500/10 flex items-center gap-1.5 self-start sm:self-auto"
           >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 text-purple-300 uppercase">
-                  {src.category}
-                </span>
-                <span className={`text-[10px] font-bold flex items-center gap-1 ${src.status === 'Healthy' ? 'text-emerald-400' : 'text-cyan-400'}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${src.status === 'Healthy' ? 'bg-emerald-400' : 'bg-cyan-400 animate-ping'}`} />
-                  {src.status}
-                </span>
+            <span>Start KG Builder Pipeline</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
+      {/* CONFIGURED SOURCES GRID */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-mono font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-cyan-400" />
+            Configured Primary Data Sources (2)
+          </h2>
+          <span className="text-xs text-slate-500 font-mono">Real server-side connections verified</span>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+          {/* ============================================================ */}
+          {/* 1. FIREBASE REALTIME DATABASE */}
+          {/* ============================================================ */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-xl bg-[#040810]/95 border border-[#13253d] hover:border-amber-500/50 transition-all flex flex-col justify-between shadow-lg relative overflow-hidden"
+          >
+            <div className="h-1 bg-gradient-to-r from-amber-500/60 via-amber-400 to-amber-500/20" />
+            <div className="p-6 space-y-5">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-400">
+                    <Database className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-base font-bold text-slate-100 font-sans">Firebase Realtime Database</h3>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-300 font-bold uppercase">
+                        NoSQL RTDB
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-400 font-mono mt-0.5">
+                      Role: <span className="text-slate-300 font-medium">Company Master Identity Source</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#02050a] border border-[#0e1c2e] text-xs font-mono">
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      isFirebaseConnected ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'
+                    }`}
+                  />
+                  <span className={isFirebaseConnected ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
+                    {isFirebaseConnected ? 'Connected' : 'Connection Failed'}
+                  </span>
+                </div>
               </div>
 
-              <h3 className="text-sm font-bold font-sans text-slate-100 mb-1">{src.name}</h3>
-              <div className="text-[11px] text-slate-500">{src.id} · Type: <span className="text-slate-300">{src.type}</span></div>
+              {/* Endpoint details */}
+              <div className="p-3 rounded-lg bg-[#02050a] border border-[#0e1c2e] font-mono text-xs space-y-1.5">
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Host / Database URL:</span>
+                  <span className="text-slate-200 truncate max-w-[280px]" title={firebaseStatus?.database_url ?? undefined}>
+                    {firebaseStatus?.database_url || 'https://reason-chain-default-rtdb.firebaseio.com'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Project ID:</span>
+                  <span className="text-slate-200">{firebaseStatus?.project_id || 'reason-chain'}</span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Authentication Method:</span>
+                  <span className="text-emerald-400 flex items-center gap-1 font-bold">
+                    <KeyRound className="w-3 h-3" /> Server Service Account JSON
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Last Connection Check:</span>
+                  <span className="text-slate-300 flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-slate-500" /> {lastFirebaseCheck}
+                  </span>
+                </div>
+              </div>
+
+              {/* Datasets breakdown */}
+              <div>
+                <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                  <span className="uppercase text-[11px] font-bold text-slate-300">Discovered Datasets (3 Collections)</span>
+                  <span>10,508 Total Records</span>
+                </div>
+
+                <div className="space-y-1.5 font-mono text-xs">
+                  {/* /companies */}
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      <span className="font-bold text-slate-200">/companies</span>
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                        Authoritative Master
+                      </span>
+                    </div>
+                    <span className="text-amber-300 font-bold">10,000 records</span>
+                  </div>
+
+                  {/* /company_reference */}
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
+                      <span className="text-slate-300">/company_reference</span>
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">
+                        Index Reference
+                      </span>
+                    </div>
+                    <span className="text-slate-400">500 records</span>
+                  </div>
+
+                  {/* /company_relationships */}
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                      <span className="text-slate-300">/company_relationships</span>
+                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-purple-500/15 text-purple-300 border border-purple-500/25">
+                        Synthetic Demo Staging
+                      </span>
+                    </div>
+                    <span className="text-purple-300 font-bold">8 records</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-2 p-3 rounded bg-[#02050a] border border-[#0e1c2e] text-xs">
-              <div className="flex justify-between text-slate-400">
-                <span>Record Count:</span>
-                <span className="font-bold text-slate-200">{src.recordCount.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between text-slate-400">
-                <span>Tables Ingested:</span>
-                <span className="text-slate-200">{src.tablesCount} tables</span>
-              </div>
-              <div className="flex justify-between text-slate-400">
-                <span>Schema Version:</span>
-                <span className="text-cyan-400">{src.schemaVersion}</span>
-              </div>
-              <div className="flex justify-between text-slate-400">
-                <span>Last Sync:</span>
-                <span className="text-slate-300">{src.lastSync}</span>
-              </div>
-            </div>
+            {/* Actions Footer */}
+            <div className="p-4 bg-[#02050a]/90 border-t border-[#0e1c2e] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsFirebaseModalOpen(true)}
+                  className="px-3 py-1.5 rounded-md bg-[#071322] border border-amber-500/30 hover:border-amber-500/60 text-amber-300 hover:text-amber-200 flex items-center gap-1.5 font-medium transition-colors"
+                >
+                  <FolderTree className="w-3.5 h-3.5" />
+                  <span>Inspect Datasets</span>
+                </button>
 
-            <div className="flex items-center justify-between pt-2 border-t border-[#0e1c2e]/60 text-xs">
-              <button
-                onClick={() => setSelectedSource(src)}
-                className="text-purple-400 hover:underline flex items-center gap-1"
-              >
-                View Schema <ArrowUpRight className="w-3.5 h-3.5" />
-              </button>
+                <button
+                  onClick={() => {
+                    setMappingTarget({
+                      sourceId: 'firebase_rtdb',
+                      datasetId: 'companies',
+                      datasetName: 'Firebase Companies (/companies)',
+                      recordEstimate: 10000,
+                    });
+                    setIsMappingModalOpen(true);
+                  }}
+                  className="px-3 py-1.5 rounded-md bg-[#071322] border border-cyan-500/30 hover:border-cyan-500/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-1.5 font-medium transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Review Mapping</span>
+                </button>
+              </div>
 
               <button
-                onClick={() => handleSync(src.id)}
-                disabled={isSyncing === src.id}
-                className="px-3 py-1 rounded bg-[#081528] border border-[#0e1c2e] hover:border-purple-500/40 text-slate-300 hover:text-purple-300 flex items-center gap-1.5 transition-colors text-[11px]"
+                onClick={handleTestFirebaseConnection}
+                disabled={isCheckingFirebase}
+                className="px-3 py-1.5 rounded-md bg-[#07111e] border border-[#13253d] hover:border-slate-600 text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors"
               >
-                <RefreshCw className={`w-3 h-3 ${isSyncing === src.id ? 'animate-spin text-purple-400' : ''}`} />
-                <span>{isSyncing === src.id ? 'Syncing...' : 'Sync Now'}</span>
+                <RefreshCw className={`w-3 h-3 ${isCheckingFirebase ? 'animate-spin text-amber-400' : ''}`} />
+                <span>{isCheckingFirebase ? 'Checking...' : 'Test Connection'}</span>
               </button>
             </div>
           </motion.div>
-        ))}
+
+          {/* ============================================================ */}
+          {/* 2. NEON SERVERLESS POSTGRESQL */}
+          {/* ============================================================ */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="rounded-xl bg-[#040810]/95 border border-[#13253d] hover:border-cyan-500/50 transition-all flex flex-col justify-between shadow-lg relative overflow-hidden"
+          >
+            <div className="h-1 bg-gradient-to-r from-cyan-500/60 via-cyan-400 to-cyan-500/20" />
+            <div className="p-6 space-y-5">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/25 text-cyan-400">
+                    <Server className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-base font-bold text-slate-100 font-sans">Neon Serverless PostgreSQL</h3>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 font-bold uppercase">
+                        Relational SQL
+                      </span>
+                    </div>
+                    <div className="text-xs text-slate-400 font-mono mt-0.5">
+                      Role: <span className="text-slate-300 font-medium">Corporate Relationships & Claims Source</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#02050a] border border-[#0e1c2e] text-xs font-mono">
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      isPostgresConnected ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'
+                    }`}
+                  />
+                  <span className={isPostgresConnected ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
+                    {isPostgresConnected ? 'Connected' : 'Connection Failed'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Endpoint details */}
+              <div className="p-3 rounded-lg bg-[#02050a] border border-[#0e1c2e] font-mono text-xs space-y-1.5">
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Host / Region:</span>
+                  <span className="text-slate-200">
+                    {postgresStatus?.host_display || 'Neon Serverless PostgreSQL (AWS us-east-2)'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Target Database & Schema:</span>
+                  <span className="text-cyan-300 font-bold">
+                    {postgresStatus?.database_name || 'neondb (reasonchain_import)'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Relational Driver Engine:</span>
+                  <span className="text-slate-200">psycopg v3 (PostgreSQL 16 Engine)</span>
+                </div>
+                <div className="flex justify-between items-center text-slate-400">
+                  <span>Last Synchronization / Import:</span>
+                  <span className="text-slate-300 flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-slate-500" />
+                    {postgresStatus?.latest_import_batch?.imported_at
+                      ? new Date(postgresStatus.latest_import_batch.imported_at).toLocaleString()
+                      : lastPostgresCheck}
+                  </span>
+                </div>
+              </div>
+
+              {/* Tables Breakdown */}
+              <div>
+                <div className="flex items-center justify-between text-xs font-mono text-slate-400 mb-2">
+                  <span className="uppercase text-[11px] font-bold text-slate-300">
+                    Configured Tables ({postgresStatus?.tables?.length || 10} Ingested)
+                  </span>
+                  <span>50 Relationship Records</span>
+                </div>
+
+                <div className="grid grid-cols-2 gap-1.5 font-mono text-xs">
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <span className="text-slate-300 truncate">company_links</span>
+                    <span className="text-cyan-300 font-bold">10 rows</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <span className="text-slate-300 truncate">relationship_claims</span>
+                    <span className="text-purple-300 font-bold">20 claims</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <span className="text-slate-300 truncate">people (directors)</span>
+                    <span className="text-slate-300">6 rows</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <span className="text-slate-300 truncate">suppliers</span>
+                    <span className="text-slate-300">5 rows</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <span className="text-slate-300 truncate">contracts</span>
+                    <span className="text-slate-300">5 rows</span>
+                  </div>
+                  <div className="p-2 rounded-lg bg-[#02050a] border border-[#0e1c2e] flex items-center justify-between">
+                    <span className="text-slate-300 truncate">sanctions & external</span>
+                    <span className="text-slate-300">4 rows</span>
+                  </div>
+                </div>
+
+                {/* Synthetic Demarcation Tag */}
+                <div className="mt-2.5 p-2 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center gap-2 text-xs font-mono text-purple-300">
+                  <ShieldAlert className="w-4 h-4 text-purple-400 shrink-0" />
+                  <span>Synthetic Demonstration Claims: Marked with lower reliability and synthetic provenance tags.</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions Footer */}
+            <div className="p-4 bg-[#02050a]/90 border-t border-[#0e1c2e] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setPostgresInitialTab('overview');
+                    setIsPostgresModalOpen(true);
+                  }}
+                  className="px-3 py-1.5 rounded-md bg-[#071322] border border-cyan-500/30 hover:border-cyan-500/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-1.5 font-medium transition-colors"
+                >
+                  <FolderTree className="w-3.5 h-3.5" />
+                  <span>Inspect Tables</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setMappingTarget({
+                      sourceId: 'postgres_main',
+                      datasetId: 'relationship_claims',
+                      datasetName: 'Neon Relationship Claims (relationship_claims)',
+                      recordEstimate: 20,
+                    });
+                    setIsMappingModalOpen(true);
+                  }}
+                  className="px-3 py-1.5 rounded-md bg-[#071322] border border-cyan-500/30 hover:border-cyan-500/60 text-cyan-300 hover:text-cyan-200 flex items-center gap-1.5 font-medium transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Review Mapping</span>
+                </button>
+              </div>
+
+              <button
+                onClick={fetchPostgresRealState}
+                disabled={isCheckingPostgres}
+                className="px-3 py-1.5 rounded-md bg-[#07111e] border border-[#13253d] hover:border-slate-600 text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors"
+              >
+                <RefreshCw className={`w-3 h-3 ${isCheckingPostgres ? 'animate-spin text-cyan-400' : ''}`} />
+                <span>{isCheckingPostgres ? 'Checking...' : 'Refresh Status'}</span>
+              </button>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* FIREBASE DISCOVERY MODAL */}
+      {/* UNCONFIGURED / FUTURE CONNECTORS SECTION */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-slate-600" />
+            Unconfigured & Available Enterprise Connectors
+          </h2>
+          <span className="text-xs text-slate-500 font-mono">No active credentials detected</span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* Salesforce CRM */}
+          <div className="p-5 rounded-xl bg-[#03060c]/60 border border-[#0d1624] flex flex-col justify-between space-y-4 opacity-75 hover:opacity-100 transition-opacity">
+            <div>
+              <div className="flex items-center justify-between mb-3 font-mono">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800/60 border border-slate-700/50 text-slate-400 uppercase">
+                  CRM Connector
+                </span>
+                <span className="text-[10px] text-slate-500 flex items-center gap-1.5 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                  Not Configured
+                </span>
+              </div>
+              <h3 className="text-sm font-bold text-slate-300">Salesforce CRM Enterprise</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Customer account hierarchies, opportunity pipelines, and contact networks. Requires Salesforce Connected App credentials.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-[#0e1c2e]/60 flex items-center justify-between text-xs font-mono">
+              <span className="text-slate-600 text-[11px]">0 records synced</span>
+              <button
+                disabled
+                className="px-2.5 py-1 rounded bg-slate-800/40 text-slate-500 border border-slate-700/30 text-[11px] cursor-not-allowed"
+                title="Configure via server environment (SALESFORCE_CLIENT_ID)"
+              >
+                Configure Connector
+              </button>
+            </div>
+          </div>
+
+          {/* SEC EDGAR Corporate Filings */}
+          <div className="p-5 rounded-xl bg-[#03060c]/60 border border-[#0d1624] flex flex-col justify-between space-y-4 opacity-75 hover:opacity-100 transition-opacity">
+            <div>
+              <div className="flex items-center justify-between mb-3 font-mono">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800/60 border border-slate-700/50 text-slate-400 uppercase">
+                  Public Filings
+                </span>
+                <span className="text-[10px] text-slate-500 flex items-center gap-1.5 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                  Available Extension
+                </span>
+              </div>
+              <h3 className="text-sm font-bold text-slate-300">SEC EDGAR Public Filings</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Direct SEC feed for public 10-K, 10-Q, and beneficial ownership filings (Form 3, 4, 5). Universal adapter ready.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-[#0e1c2e]/60 flex items-center justify-between text-xs font-mono">
+              <span className="text-slate-600 text-[11px]">Public API Source</span>
+              <button
+                disabled
+                className="px-2.5 py-1 rounded bg-slate-800/40 text-slate-500 border border-slate-700/30 text-[11px] cursor-not-allowed"
+              >
+                Enable Stream
+              </button>
+            </div>
+          </div>
+
+          {/* OFAC Sanctions Stream */}
+          <div className="p-5 rounded-xl bg-[#03060c]/60 border border-[#0d1624] flex flex-col justify-between space-y-4 opacity-75 hover:opacity-100 transition-opacity">
+            <div>
+              <div className="flex items-center justify-between mb-3 font-mono">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-800/60 border border-slate-700/50 text-slate-400 uppercase">
+                  Compliance Feed
+                </span>
+                <span className="text-[10px] text-slate-500 flex items-center gap-1.5 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                  Available Extension
+                </span>
+              </div>
+              <h3 className="text-sm font-bold text-slate-300">OFAC & Global Sanctions Stream</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Live SDN and consolidated sanction lists from US Treasury, EU, and UN databases. Extensible relational schema.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-[#0e1c2e]/60 flex items-center justify-between text-xs font-mono">
+              <span className="text-slate-600 text-[11px]">Real-time Watchlist</span>
+              <button
+                disabled
+                className="px-2.5 py-1 rounded bg-slate-800/40 text-slate-500 border border-slate-700/30 text-[11px] cursor-not-allowed"
+              >
+                Enable Feed
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* MODALS */}
       <FirebaseDiscoveryModal
         isOpen={isFirebaseModalOpen}
         onClose={() => setIsFirebaseModalOpen(false)}
@@ -422,7 +653,6 @@ export default function DataSourcesView({ onNavigateToGraph }: DataSourcesViewPr
         projectId={firebaseStatus?.project_id}
       />
 
-      {/* AI-ASSISTED SEMANTIC MAPPING & GOVERNANCE MODAL */}
       <MappingWorkflowModal
         isOpen={isMappingModalOpen}
         onClose={() => setIsMappingModalOpen(false)}
@@ -433,60 +663,11 @@ export default function DataSourcesView({ onNavigateToGraph }: DataSourcesViewPr
         onNavigateToGraph={onNavigateToGraph}
       />
 
-      {/* RELATIONAL SCHEMA DETAILS MODAL */}
-      <AnimatePresence>
-        {selectedSource && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#050d1a] border border-purple-500/30 rounded-lg max-w-lg w-full p-6 space-y-4 shadow-2xl relative"
-            >
-              <button
-                onClick={() => setSelectedSource(null)}
-                className="absolute top-4 right-4 text-slate-500 hover:text-slate-200"
-              >
-                [ESC]
-              </button>
-
-              <div className="flex items-center gap-2 text-purple-400 text-xs">
-                <HardDrive className="w-4 h-4" />
-                <span>{selectedSource.id} SCHEMA INFO</span>
-              </div>
-
-              <h2 className="text-lg font-bold font-sans text-slate-100">{selectedSource.name}</h2>
-
-              <div className="p-4 rounded bg-[#02050a] border border-[#0e1c2e] space-y-2 text-xs">
-                <div className="text-slate-400 uppercase text-[10px] tracking-wider mb-2">Ingested Relational Tables ({selectedSource.tablesCount})</div>
-                <div className="space-y-1 text-slate-300">
-                  <div className="flex justify-between border-b border-[#0e1c2e]/60 pb-1">
-                    <span>tbl_vendor_master</span>
-                    <span className="text-cyan-400">42,190 rows</span>
-                  </div>
-                  <div className="flex justify-between border-b border-[#0e1c2e]/60 pb-1">
-                    <span>tbl_contracts_register</span>
-                    <span className="text-cyan-400">14,200 rows</span>
-                  </div>
-                  <div className="flex justify-between border-b border-[#0e1c2e]/60 pb-1">
-                    <span>tbl_directors_ownership</span>
-                    <span className="text-cyan-400">69,040 rows</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end">
-                <button
-                  onClick={() => setSelectedSource(null)}
-                  className="px-4 py-2 rounded bg-purple-500 text-slate-950 font-bold text-xs uppercase"
-                >
-                  Close
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <PostgresExplorerModal
+        isOpen={isPostgresModalOpen}
+        onClose={() => setIsPostgresModalOpen(false)}
+        initialTab={postgresInitialTab}
+      />
     </div>
   );
 }

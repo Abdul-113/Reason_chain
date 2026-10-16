@@ -1,0 +1,1674 @@
+{
+  "timestamp": "20261013_052229",
+  "engine": "sqlite",
+  "tables": {
+    "company_directors": {
+      "count": 32,
+      "rows": [
+        {
+          "id": "CD001",
+          "company_id": "C001",
+          "person_id": "P001",
+          "role": "Director",
+          "valid_from": "2021-01-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD002",
+          "company_id": "C002",
+          "person_id": "P001",
+          "role": "Managing Director",
+          "valid_from": "2022-03-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD003",
+          "company_id": "C003",
+          "person_id": "P002",
+          "role": "Non-Executive Director",
+          "valid_from": "2020-06-10",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD004",
+          "company_id": "C004",
+          "person_id": "P002",
+          "role": "Director",
+          "valid_from": "2019-11-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD005",
+          "company_id": "C005",
+          "person_id": "P003",
+          "role": "Chief Technology Officer",
+          "valid_from": "2023-02-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD006",
+          "company_id": "C002",
+          "person_id": "P004",
+          "role": "Chairman",
+          "valid_from": "2018-04-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD007",
+          "company_id": "C007",
+          "person_id": "P005",
+          "role": "Corporate Secretary",
+          "valid_from": "2020-01-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD008",
+          "company_id": "C009",
+          "person_id": "P006",
+          "role": "Beneficial Owner",
+          "valid_from": "2021-08-20",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD009",
+          "company_id": "C007",
+          "person_id": "P007",
+          "role": "Nominee Director",
+          "valid_from": "2022-05-12",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD010",
+          "company_id": "C006",
+          "person_id": "P008",
+          "role": "Chief Operating Officer",
+          "valid_from": "2017-09-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD011",
+          "company_id": "C012",
+          "person_id": "P009",
+          "role": "Board Member",
+          "valid_from": "2021-12-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD012",
+          "company_id": "C018",
+          "person_id": "P010",
+          "role": "Director",
+          "valid_from": "2020-03-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD013",
+          "company_id": "C005",
+          "person_id": "P011",
+          "role": "Finance Director",
+          "valid_from": "2022-07-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD014",
+          "company_id": "C010",
+          "person_id": "P012",
+          "role": "Legal Counsel",
+          "valid_from": "2023-01-10",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD015",
+          "company_id": "C001",
+          "person_id": "P013",
+          "role": "Director of Procurement",
+          "valid_from": "2022-10-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD016",
+          "company_id": "C009",
+          "person_id": "P014",
+          "role": "Compliance Officer",
+          "valid_from": "2021-04-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD017",
+          "company_id": "C025",
+          "person_id": "P015",
+          "role": "Managing Partner",
+          "valid_from": "2019-08-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD018",
+          "company_id": "C011",
+          "person_id": "P016",
+          "role": "Board Member",
+          "valid_from": "2020-02-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD019",
+          "company_id": "C001",
+          "person_id": "P017",
+          "role": "Former Director",
+          "valid_from": "2018-01-01",
+          "valid_to": "2020-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD020",
+          "company_id": "C006",
+          "person_id": "P018",
+          "role": "Independent Director",
+          "valid_from": "2021-05-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD021",
+          "company_id": "C014",
+          "person_id": "P019",
+          "role": "Audit Chair",
+          "valid_from": "2022-09-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD022",
+          "company_id": "C024",
+          "person_id": "P020",
+          "role": "Director",
+          "valid_from": "2021-11-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD023",
+          "company_id": "C020",
+          "person_id": "P021",
+          "role": "Operations Director",
+          "valid_from": "2023-03-10",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD024",
+          "company_id": "C012",
+          "person_id": "P022",
+          "role": "Board Member",
+          "valid_from": "2020-06-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD025",
+          "company_id": "C016",
+          "person_id": "P023",
+          "role": "General Counsel",
+          "valid_from": "2019-10-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD026",
+          "company_id": "C001",
+          "person_id": "P024",
+          "role": "VP Supply Chain",
+          "valid_from": "2023-05-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD027",
+          "company_id": "C018",
+          "person_id": "P025",
+          "role": "Nominee Director",
+          "valid_from": "2021-02-10",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD028",
+          "company_id": "C002",
+          "person_id": "P006",
+          "role": "Shadow Director",
+          "valid_from": "2022-01-01",
+          "valid_to": "2026-12-31",
+          "source": "Compliance Report"
+        },
+        {
+          "id": "CD029",
+          "company_id": "C024",
+          "person_id": "P007",
+          "role": "Trustee",
+          "valid_from": "2020-08-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD030",
+          "company_id": "C008",
+          "person_id": "P003",
+          "role": "Technical Director",
+          "valid_from": "2021-04-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD031",
+          "company_id": "C006",
+          "person_id": "P001",
+          "role": "Advisory Board Member",
+          "valid_from": "2020-06-01",
+          "valid_to": "2025-12-31",
+          "source": "Corporate Registry"
+        },
+        {
+          "id": "CD032",
+          "company_id": "C013",
+          "person_id": "P003",
+          "role": "Non-Executive Director",
+          "valid_from": "2021-01-01",
+          "valid_to": "2025-06-30",
+          "source": "Corporate Registry"
+        }
+      ]
+    },
+    "supplier_relationships": {
+      "count": 28,
+      "rows": [
+        {
+          "id": "SR001",
+          "supplier_id": "S001",
+          "company_id": "C001",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2022-01-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.98
+        },
+        {
+          "id": "SR002",
+          "supplier_id": "S002",
+          "company_id": "C001",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2021-06-15",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.95
+        },
+        {
+          "id": "SR003",
+          "supplier_id": "S003",
+          "company_id": "C001",
+          "relationship_type": "CONTRACTED_WITH",
+          "start_date": "2023-03-01",
+          "end_date": "2026-09-15",
+          "source": "Contracts Repository",
+          "confidence": 0.97
+        },
+        {
+          "id": "SR004",
+          "supplier_id": "S004",
+          "company_id": "C007",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2020-11-10",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.91
+        },
+        {
+          "id": "SR005",
+          "supplier_id": "S005",
+          "company_id": "C005",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2022-05-20",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.99
+        },
+        {
+          "id": "SR006",
+          "supplier_id": "S006",
+          "company_id": "C005",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2021-08-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.94
+        },
+        {
+          "id": "SR007",
+          "supplier_id": "S007",
+          "company_id": "C002",
+          "relationship_type": "CONTRACTED_WITH",
+          "start_date": "2019-12-01",
+          "end_date": "2026-12-31",
+          "source": "CRM",
+          "confidence": 0.93
+        },
+        {
+          "id": "SR008",
+          "supplier_id": "S008",
+          "company_id": "C006",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2023-01-15",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.96
+        },
+        {
+          "id": "SR009",
+          "supplier_id": "S009",
+          "company_id": "C009",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2021-10-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.89
+        },
+        {
+          "id": "SR010",
+          "supplier_id": "S010",
+          "company_id": "C010",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2022-04-10",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.97
+        },
+        {
+          "id": "SR011",
+          "supplier_id": "S011",
+          "company_id": "C017",
+          "relationship_type": "CONTRACTED_WITH",
+          "start_date": "2023-06-01",
+          "end_date": "2026-12-31",
+          "source": "Contracts Repository",
+          "confidence": 0.96
+        },
+        {
+          "id": "SR012",
+          "supplier_id": "S012",
+          "company_id": "C018",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2020-09-15",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.9
+        },
+        {
+          "id": "SR013",
+          "supplier_id": "S013",
+          "company_id": "C011",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2022-02-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.98
+        },
+        {
+          "id": "SR014",
+          "supplier_id": "S014",
+          "company_id": "C012",
+          "relationship_type": "CONTRACTED_WITH",
+          "start_date": "2021-07-01",
+          "end_date": "2026-12-31",
+          "source": "CRM",
+          "confidence": 0.92
+        },
+        {
+          "id": "SR015",
+          "supplier_id": "S015",
+          "company_id": "C016",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2023-02-15",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.95
+        },
+        {
+          "id": "SR016",
+          "supplier_id": "S016",
+          "company_id": "C001",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2022-01-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.97
+        },
+        {
+          "id": "SR017",
+          "supplier_id": "S017",
+          "company_id": "C008",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2021-11-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.96
+        },
+        {
+          "id": "SR018",
+          "supplier_id": "S018",
+          "company_id": "C025",
+          "relationship_type": "CONTRACTED_WITH",
+          "start_date": "2020-05-01",
+          "end_date": "2026-12-31",
+          "source": "Contracts Repository",
+          "confidence": 0.91
+        },
+        {
+          "id": "SR019",
+          "supplier_id": "S001",
+          "company_id": "C006",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2023-01-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.94
+        },
+        {
+          "id": "SR020",
+          "supplier_id": "S002",
+          "company_id": "C014",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2022-08-15",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.96
+        },
+        {
+          "id": "SR021",
+          "supplier_id": "S003",
+          "company_id": "C015",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2023-04-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.93
+        },
+        {
+          "id": "SR022",
+          "supplier_id": "S004",
+          "company_id": "C018",
+          "relationship_type": "CONTRACTED_WITH",
+          "start_date": "2021-03-10",
+          "end_date": "2026-12-31",
+          "source": "CRM",
+          "confidence": 0.88
+        },
+        {
+          "id": "SR023",
+          "supplier_id": "S005",
+          "company_id": "C019",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2022-12-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.99
+        },
+        {
+          "id": "SR024",
+          "supplier_id": "S007",
+          "company_id": "C012",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2020-10-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.92
+        },
+        {
+          "id": "SR025",
+          "supplier_id": "S010",
+          "company_id": "C020",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2023-01-20",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.97
+        },
+        {
+          "id": "SR026",
+          "supplier_id": "S013",
+          "company_id": "C023",
+          "relationship_type": "CONTRACTED_WITH",
+          "start_date": "2022-06-01",
+          "end_date": "2026-12-31",
+          "source": "Contracts Repository",
+          "confidence": 0.95
+        },
+        {
+          "id": "SR027",
+          "supplier_id": "S014",
+          "company_id": "C025",
+          "relationship_type": "SUPPLIES",
+          "start_date": "2021-09-01",
+          "end_date": "2026-12-31",
+          "source": "ERP",
+          "confidence": 0.9
+        },
+        {
+          "id": "SR028",
+          "supplier_id": "S001",
+          "company_id": "C004",
+          "relationship_type": "EXPIRED_SUPPLIER",
+          "start_date": "2019-01-01",
+          "end_date": "2021-12-31",
+          "source": "Historical ERP",
+          "confidence": 0.99
+        }
+      ]
+    },
+    "ownership": {
+      "count": 18,
+      "rows": [
+        {
+          "id": "OW001",
+          "owner_company_id": "C004",
+          "owned_company_id": "C005",
+          "ownership_percentage": 72.0,
+          "valid_from": "2020-01-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.99
+        },
+        {
+          "id": "OW002",
+          "owner_company_id": "C003",
+          "owned_company_id": "C002",
+          "ownership_percentage": 100.0,
+          "valid_from": "2019-05-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.99
+        },
+        {
+          "id": "OW003",
+          "owner_company_id": "C006",
+          "owned_company_id": "C001",
+          "ownership_percentage": 15.5,
+          "valid_from": "2021-08-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.98
+        },
+        {
+          "id": "OW004",
+          "owner_company_id": "C019",
+          "owned_company_id": "C011",
+          "ownership_percentage": 51.0,
+          "valid_from": "2018-11-20",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.99
+        },
+        {
+          "id": "OW005",
+          "owner_company_id": "C019",
+          "owned_company_id": "C016",
+          "ownership_percentage": 100.0,
+          "valid_from": "2017-03-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.99
+        },
+        {
+          "id": "OW006",
+          "owner_company_id": "C003",
+          "owned_company_id": "C007",
+          "ownership_percentage": 49.0,
+          "valid_from": "2021-02-10",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.95
+        },
+        {
+          "id": "OW007",
+          "owner_company_id": "C024",
+          "owned_company_id": "C009",
+          "ownership_percentage": 85.0,
+          "valid_from": "2020-10-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.97
+        },
+        {
+          "id": "OW008",
+          "owner_company_id": "C023",
+          "owned_company_id": "C015",
+          "ownership_percentage": 60.0,
+          "valid_from": "2022-04-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.98
+        },
+        {
+          "id": "OW009",
+          "owner_company_id": "C008",
+          "owned_company_id": "C023",
+          "ownership_percentage": 30.0,
+          "valid_from": "2021-07-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.96
+        },
+        {
+          "id": "OW010",
+          "owner_company_id": "C012",
+          "owned_company_id": "C025",
+          "ownership_percentage": 100.0,
+          "valid_from": "2019-09-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.99
+        },
+        {
+          "id": "OW011",
+          "owner_company_id": "C020",
+          "owned_company_id": "C010",
+          "ownership_percentage": 25.0,
+          "valid_from": "2023-01-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.94
+        },
+        {
+          "id": "OW012",
+          "owner_company_id": "C004",
+          "owned_company_id": "C006",
+          "ownership_percentage": 40.0,
+          "valid_from": "2022-03-15",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.97
+        },
+        {
+          "id": "OW013",
+          "owner_company_id": "C024",
+          "owned_company_id": "C018",
+          "ownership_percentage": 99.5,
+          "valid_from": "2020-06-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.99
+        },
+        {
+          "id": "OW014",
+          "owner_company_id": "C014",
+          "owned_company_id": "C017",
+          "ownership_percentage": 35.0,
+          "valid_from": "2021-12-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.95
+        },
+        {
+          "id": "OW015",
+          "owner_company_id": "C003",
+          "owned_company_id": "C024",
+          "ownership_percentage": 100.0,
+          "valid_from": "2018-08-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.99
+        },
+        {
+          "id": "OW016",
+          "owner_company_id": "C019",
+          "owned_company_id": "C004",
+          "ownership_percentage": 10.0,
+          "valid_from": "2022-01-10",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.96
+        },
+        {
+          "id": "OW017",
+          "owner_company_id": "C006",
+          "owned_company_id": "C005",
+          "ownership_percentage": 28.0,
+          "valid_from": "2020-01-01",
+          "valid_to": "2026-12-31",
+          "source": "Corporate Registry",
+          "confidence": 0.98
+        },
+        {
+          "id": "OW018",
+          "owner_company_id": "C004",
+          "owned_company_id": "C002",
+          "ownership_percentage": 10.0,
+          "valid_from": "2018-01-01",
+          "valid_to": "2020-12-31",
+          "source": "Historical Registry",
+          "confidence": 0.99
+        }
+      ]
+    },
+    "contracts": {
+      "count": 22,
+      "rows": [
+        {
+          "id": "CTR-001",
+          "contract_number": "CTR-2026-001",
+          "supplier_id": "S001",
+          "company_id": "C001",
+          "contract_type": "Master Supply Agreement",
+          "start_date": "2024-01-01",
+          "end_date": "2026-12-31",
+          "status": "Active",
+          "value": 1250000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-002",
+          "contract_number": "CTR-2026-002",
+          "supplier_id": "S002",
+          "company_id": "C001",
+          "contract_type": "Raw Material Provision",
+          "start_date": "2023-06-01",
+          "end_date": "2025-06-01",
+          "status": "Expired",
+          "value": 450000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-003",
+          "contract_number": "CTR-2026-003",
+          "supplier_id": "S003",
+          "company_id": "C001",
+          "contract_type": "Microchip Delivery",
+          "start_date": "2025-09-15",
+          "end_date": "2026-09-15",
+          "status": "Expiring Soon",
+          "value": 890000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-004",
+          "contract_number": "CTR-2026-004",
+          "supplier_id": "S004",
+          "company_id": "C007",
+          "contract_type": "Logistics Brokerage",
+          "start_date": "2022-01-01",
+          "end_date": "2027-01-01",
+          "status": "Active",
+          "value": 2100000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-005",
+          "contract_number": "CTR-2026-005",
+          "supplier_id": "S005",
+          "company_id": "C005",
+          "contract_type": "Parts Fulfillment",
+          "start_date": "2024-03-01",
+          "end_date": "2026-08-30",
+          "status": "Expiring Soon",
+          "value": 320000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-006",
+          "contract_number": "CTR-2026-006",
+          "supplier_id": "S006",
+          "company_id": "C005",
+          "contract_type": "Chemical Supply",
+          "start_date": "2023-01-01",
+          "end_date": "2026-12-31",
+          "status": "Active",
+          "value": 670000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-007",
+          "contract_number": "CTR-2026-007",
+          "supplier_id": "S007",
+          "company_id": "C002",
+          "contract_type": "Freight Chartering",
+          "start_date": "2021-11-01",
+          "end_date": "2026-11-01",
+          "status": "Active",
+          "value": 3500000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-008",
+          "contract_number": "CTR-2026-008",
+          "supplier_id": "S008",
+          "company_id": "C006",
+          "contract_type": "Tooling Lease",
+          "start_date": "2024-05-01",
+          "end_date": "2027-05-01",
+          "status": "Active",
+          "value": 540000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-009",
+          "contract_number": "CTR-2026-009",
+          "supplier_id": "S009",
+          "company_id": "C009",
+          "contract_type": "Rare Earth Extraction",
+          "start_date": "2022-08-01",
+          "end_date": "2026-09-01",
+          "status": "Expiring Soon",
+          "value": 4200000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-010",
+          "contract_number": "CTR-2026-010",
+          "supplier_id": "S010",
+          "company_id": "C010",
+          "contract_type": "Steel Supply",
+          "start_date": "2023-09-01",
+          "end_date": "2026-09-30",
+          "status": "Expiring Soon",
+          "value": 980000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-011",
+          "contract_number": "CTR-2026-011",
+          "supplier_id": "S011",
+          "company_id": "C017",
+          "contract_type": "Solar Cell Procurement",
+          "start_date": "2024-02-01",
+          "end_date": "2027-02-01",
+          "status": "Active",
+          "value": 1850000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-012",
+          "contract_number": "CTR-2026-012",
+          "supplier_id": "S012",
+          "company_id": "C018",
+          "contract_type": "Port Bunkering Contract",
+          "start_date": "2023-04-01",
+          "end_date": "2026-04-01",
+          "status": "Expired",
+          "value": 620000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-013",
+          "contract_number": "CTR-2026-013",
+          "supplier_id": "S013",
+          "company_id": "C011",
+          "contract_type": "PCB Assembly",
+          "start_date": "2024-01-15",
+          "end_date": "2026-12-31",
+          "status": "Active",
+          "value": 1120000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-014",
+          "contract_number": "CTR-2026-014",
+          "supplier_id": "S014",
+          "company_id": "C012",
+          "contract_type": "Air Logistics Master",
+          "start_date": "2022-10-01",
+          "end_date": "2026-10-01",
+          "status": "Expiring Soon",
+          "value": 2900000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-015",
+          "contract_number": "CTR-2026-015",
+          "supplier_id": "S015",
+          "company_id": "C016",
+          "contract_type": "Aviation Seal Supply",
+          "start_date": "2023-11-01",
+          "end_date": "2026-11-01",
+          "status": "Active",
+          "value": 410000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-016",
+          "contract_number": "CTR-2026-016",
+          "supplier_id": "S016",
+          "company_id": "C001",
+          "contract_type": "Hardware Secondary Supply",
+          "start_date": "2024-01-01",
+          "end_date": "2026-12-31",
+          "status": "Active",
+          "value": 600000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-017",
+          "contract_number": "CTR-2026-017",
+          "supplier_id": "S017",
+          "company_id": "C008",
+          "contract_type": "Alloy Procurement",
+          "start_date": "2023-07-01",
+          "end_date": "2026-07-01",
+          "status": "Expired",
+          "value": 1350000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-018",
+          "contract_number": "CTR-2026-018",
+          "supplier_id": "S018",
+          "company_id": "C025",
+          "contract_type": "Maritime Support Services",
+          "start_date": "2022-03-01",
+          "end_date": "2027-03-01",
+          "status": "Active",
+          "value": 1780000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-019",
+          "contract_number": "CTR-2026-019",
+          "supplier_id": "S001",
+          "company_id": "C006",
+          "contract_type": "Hardware Auxiliary Agreement",
+          "start_date": "2024-06-01",
+          "end_date": "2026-09-01",
+          "status": "Expiring Soon",
+          "value": 250000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-020",
+          "contract_number": "CTR-2026-020",
+          "supplier_id": "S005",
+          "company_id": "C019",
+          "contract_type": "Fasteners Global Supply",
+          "start_date": "2023-01-01",
+          "end_date": "2026-12-31",
+          "status": "Active",
+          "value": 500000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-021",
+          "contract_number": "CTR-2026-021",
+          "supplier_id": "S007",
+          "company_id": "C012",
+          "contract_type": "Container Logistics Annex",
+          "start_date": "2022-05-01",
+          "end_date": "2026-05-01",
+          "status": "Expired",
+          "value": 880000.0,
+          "source": "Contracts Repository"
+        },
+        {
+          "id": "CTR-022",
+          "contract_number": "CTR-2026-022",
+          "supplier_id": "S010",
+          "company_id": "C020",
+          "contract_type": "Refining Ore Contract",
+          "start_date": "2024-01-01",
+          "end_date": "2027-01-01",
+          "status": "Active",
+          "value": 3100000.0,
+          "source": "Contracts Repository"
+        }
+      ]
+    },
+    "sanctions": {
+      "count": 6,
+      "rows": [
+        {
+          "id": "SNC-001",
+          "entity_type": "company",
+          "company_id": "C002",
+          "person_id": null,
+          "authority": "OFAC SDN List",
+          "listed_date": "2023-04-12",
+          "delisted_date": null,
+          "status": "Active",
+          "source": "Compliance Registry"
+        },
+        {
+          "id": "SNC-002",
+          "entity_type": "company",
+          "company_id": "C009",
+          "person_id": null,
+          "authority": "EU Financial Watchlist",
+          "listed_date": "2023-11-05",
+          "delisted_date": null,
+          "status": "Active",
+          "source": "Compliance Registry"
+        },
+        {
+          "id": "SNC-003",
+          "entity_type": "person",
+          "company_id": null,
+          "person_id": "P006",
+          "authority": "OFAC SDN List",
+          "listed_date": "2022-09-20",
+          "delisted_date": null,
+          "status": "Active",
+          "source": "Compliance Registry"
+        },
+        {
+          "id": "SNC-004",
+          "entity_type": "person",
+          "company_id": null,
+          "person_id": "P007",
+          "authority": "UN Security Council Sanctions",
+          "listed_date": "2024-01-15",
+          "delisted_date": null,
+          "status": "Active",
+          "source": "Compliance Registry"
+        },
+        {
+          "id": "SNC-005",
+          "entity_type": "company",
+          "company_id": "C024",
+          "person_id": null,
+          "authority": "UK HM Treasury Sanctions",
+          "listed_date": "2023-06-18",
+          "delisted_date": null,
+          "status": "Active",
+          "source": "Compliance Registry"
+        },
+        {
+          "id": "SNC-006",
+          "entity_type": "person",
+          "company_id": null,
+          "person_id": "P020",
+          "authority": "EU Financial Watchlist",
+          "listed_date": "2022-09-20",
+          "delisted_date": null,
+          "status": "Active",
+          "source": "Compliance Registry"
+        }
+      ]
+    },
+    "companies": {
+      "count": 26,
+      "rows": [
+        {
+          "id": "C001",
+          "name": "Acme Manufacturing",
+          "country": "US",
+          "industry": "Industrial Manufacturing",
+          "status": "Active",
+          "registration_number": "REG-10001"
+        },
+        {
+          "id": "C002",
+          "name": "Orion Trading",
+          "country": "AE",
+          "industry": "Commodity Trading",
+          "status": "Active",
+          "registration_number": "REG-20042"
+        },
+        {
+          "id": "C003",
+          "name": "Vertex Global",
+          "country": "KY",
+          "industry": "Investment Holding",
+          "status": "Active",
+          "registration_number": "REG-88124"
+        },
+        {
+          "id": "C004",
+          "name": "Nova Holdings",
+          "country": "US",
+          "industry": "Corporate Investment",
+          "status": "Active",
+          "registration_number": "REG-99401"
+        },
+        {
+          "id": "C005",
+          "name": "Meridian Components",
+          "country": "GB",
+          "industry": "Electronics Manufacturing",
+          "status": "Active",
+          "registration_number": "REG-55201"
+        },
+        {
+          "id": "C006",
+          "name": "Apex Enterprises",
+          "country": "GB",
+          "industry": "Capital Ventures",
+          "status": "Active",
+          "registration_number": "REG-33210"
+        },
+        {
+          "id": "C007",
+          "name": "Zenith Logistics SA",
+          "country": "PA",
+          "industry": "Freight & Shipping",
+          "status": "Active",
+          "registration_number": "REG-77192"
+        },
+        {
+          "id": "C008",
+          "name": "Titan Dynamics",
+          "country": "SG",
+          "industry": "Aerospace Components",
+          "status": "Active",
+          "registration_number": "REG-44102"
+        },
+        {
+          "id": "C009",
+          "name": "Helios Energy Ltd",
+          "country": "CY",
+          "industry": "Renewable Energy",
+          "status": "Active",
+          "registration_number": "REG-66183"
+        },
+        {
+          "id": "C010",
+          "name": "Banyan Tech Systems",
+          "country": "IN",
+          "industry": "Software & Hardware",
+          "status": "Active",
+          "registration_number": "REG-11928"
+        },
+        {
+          "id": "C011",
+          "name": "Vanguard Robotics",
+          "country": "US",
+          "industry": "Industrial Automation",
+          "status": "Active",
+          "registration_number": "REG-88219"
+        },
+        {
+          "id": "C012",
+          "name": "Atlas Global Trade",
+          "country": "AE",
+          "industry": "Export Logistics",
+          "status": "Active",
+          "registration_number": "REG-44391"
+        },
+        {
+          "id": "C013",
+          "name": "Synergy Pharma",
+          "country": "SG",
+          "industry": "Biotechnology",
+          "status": "Active",
+          "registration_number": "REG-33182"
+        },
+        {
+          "id": "C014",
+          "name": "Crestview Materials",
+          "country": "GB",
+          "industry": "Chemical Processing",
+          "status": "Active",
+          "registration_number": "REG-99120"
+        },
+        {
+          "id": "C015",
+          "name": "Pacific Rim Supply",
+          "country": "SG",
+          "industry": "Supply Chain Tech",
+          "status": "Active",
+          "registration_number": "REG-55109"
+        },
+        {
+          "id": "C016",
+          "name": "Kestrel Aviation",
+          "country": "US",
+          "industry": "Aeronautical Parts",
+          "status": "Active",
+          "registration_number": "REG-77281"
+        },
+        {
+          "id": "C017",
+          "name": "Solaria Power",
+          "country": "CY",
+          "industry": "Solar Infrastructure",
+          "status": "Active",
+          "registration_number": "REG-22194"
+        },
+        {
+          "id": "C018",
+          "name": "Blue Horizon Shipping",
+          "country": "PA",
+          "industry": "Maritime Freight",
+          "status": "Active",
+          "registration_number": "REG-66301"
+        },
+        {
+          "id": "C019",
+          "name": "Omni Corp International",
+          "country": "US",
+          "industry": "Diversified Holding",
+          "status": "Active",
+          "registration_number": "REG-10293"
+        },
+        {
+          "id": "C020",
+          "name": "Starlight Minerals",
+          "country": "IN",
+          "industry": "Raw Metals Refining",
+          "status": "Active",
+          "registration_number": "REG-88392"
+        },
+        {
+          "id": "C021",
+          "name": "ABC Industrial Supplies Ltd.",
+          "country": "US",
+          "industry": "Industrial Distributing",
+          "status": "Active",
+          "registration_number": "REG-10001-ALT"
+        },
+        {
+          "id": "C022",
+          "name": "ABC Industrial Supplies LTD",
+          "country": "US",
+          "industry": "Industrial Distribution",
+          "status": "Active",
+          "registration_number": "REG-10001-ALT2"
+        },
+        {
+          "id": "C023",
+          "name": "Quantum Tech Holdings",
+          "country": "SG",
+          "industry": "Semiconductors",
+          "status": "Active",
+          "registration_number": "REG-44910"
+        },
+        {
+          "id": "C024",
+          "name": "Elysium Offshore Corp",
+          "country": "KY",
+          "industry": "Special Purpose Vehicle",
+          "status": "Active",
+          "registration_number": "REG-99102"
+        },
+        {
+          "id": "C025",
+          "name": "Beacon Maritime Group",
+          "country": "AE",
+          "industry": "Port Operations",
+          "status": "Active",
+          "registration_number": "REG-33821"
+        },
+        {
+          "id": "U31908MH2012PTC230026",
+          "name": "3A INNOVATIVE TECHNOLOGIES PRIVATE LIMITED",
+          "country": "IN",
+          "industry": "Manufacturing (Machinery and Equipments)",
+          "status": "Active",
+          "registration_number": "U31908MH2012PTC230026"
+        }
+      ]
+    },
+    "suppliers": {
+      "count": 18,
+      "rows": [
+        {
+          "id": "S001",
+          "name": "ABC Industrial Supplies",
+          "country": "US",
+          "status": "Active",
+          "supplier_type": "Tier-1 Hardware",
+          "risk_level": "Medium"
+        },
+        {
+          "id": "S002",
+          "name": "Prime Materials",
+          "country": "GB",
+          "status": "Active",
+          "supplier_type": "Raw Metals",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S003",
+          "name": "Global Components",
+          "country": "SG",
+          "status": "Active",
+          "supplier_type": "Microcontrollers",
+          "risk_level": "Medium"
+        },
+        {
+          "id": "S004",
+          "name": "Vertex Logistics",
+          "country": "PA",
+          "status": "Active",
+          "supplier_type": "Freight Broker",
+          "risk_level": "High"
+        },
+        {
+          "id": "S005",
+          "name": "Delta Industrial Parts",
+          "country": "US",
+          "status": "Active",
+          "supplier_type": "Standard Fasteners",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S006",
+          "name": "Highland Chemical Ltd",
+          "country": "GB",
+          "status": "Active",
+          "supplier_type": "Industrial Polymers",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S007",
+          "name": "Oceanic Freight Systems",
+          "country": "AE",
+          "status": "Active",
+          "supplier_type": "Container Shipping",
+          "risk_level": "Medium"
+        },
+        {
+          "id": "S008",
+          "name": "Precision Tooling Corp",
+          "country": "US",
+          "status": "Active",
+          "supplier_type": "CNC Machinery",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S009",
+          "name": "Cyprus Rare Earths",
+          "country": "CY",
+          "status": "Active",
+          "supplier_type": "Mineral Extraction",
+          "risk_level": "High"
+        },
+        {
+          "id": "S010",
+          "name": "Bharat Metal Fabricators",
+          "country": "IN",
+          "status": "Active",
+          "supplier_type": "Structural Steel",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S011",
+          "name": "Sunburst Solar Panels",
+          "country": "SG",
+          "status": "Active",
+          "supplier_type": "Photovoltaic Cells",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S012",
+          "name": "Panama Maritime Supply",
+          "country": "PA",
+          "status": "Active",
+          "supplier_type": "Port Services",
+          "risk_level": "High"
+        },
+        {
+          "id": "S013",
+          "name": "United Electronics LLC",
+          "country": "US",
+          "status": "Active",
+          "supplier_type": "Circuit Boards",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S014",
+          "name": "Falcon Air Cargo",
+          "country": "AE",
+          "status": "Active",
+          "supplier_type": "Air Freight",
+          "risk_level": "Medium"
+        },
+        {
+          "id": "S015",
+          "name": "Apex Rubber Solutions",
+          "country": "GB",
+          "status": "Active",
+          "supplier_type": "Seals & Gaskets",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S016",
+          "name": "ABC Industrial Supplies Inc",
+          "country": "US",
+          "status": "Active",
+          "supplier_type": "Hardware Vendor",
+          "risk_level": "Medium"
+        },
+        {
+          "id": "S017",
+          "name": "Vanguard Precision Components",
+          "country": "US",
+          "status": "Active",
+          "supplier_type": "Machined Alloys",
+          "risk_level": "Low"
+        },
+        {
+          "id": "S018",
+          "name": "Kestrel Fuel Logistics",
+          "country": "AE",
+          "status": "Active",
+          "supplier_type": "Fuel Bunkering",
+          "risk_level": "Medium"
+        }
+      ]
+    },
+    "people": {
+      "count": 25,
+      "rows": [
+        {
+          "id": "P001",
+          "full_name": "Rahul Mehta",
+          "country": "IN",
+          "role": "Chief Executive Officer",
+          "status": "Active"
+        },
+        {
+          "id": "P002",
+          "full_name": "Sarah Wilson",
+          "country": "US",
+          "role": "Managing Director",
+          "status": "Active"
+        },
+        {
+          "id": "P003",
+          "full_name": "Daniel Chen",
+          "country": "SG",
+          "role": "Chief Technology Officer",
+          "status": "Active"
+        },
+        {
+          "id": "P004",
+          "full_name": "Amit Shah",
+          "country": "AE",
+          "role": "Chairman",
+          "status": "Active"
+        },
+        {
+          "id": "P005",
+          "full_name": "Elena Rossi",
+          "country": "CY",
+          "role": "Corporate Secretary",
+          "status": "Active"
+        },
+        {
+          "id": "P006",
+          "full_name": "Victor Krum",
+          "country": "CY",
+          "role": "Beneficial Owner",
+          "status": "Active"
+        },
+        {
+          "id": "P007",
+          "full_name": "Dmitri Volkov",
+          "country": "PA",
+          "role": "Director",
+          "status": "Active"
+        },
+        {
+          "id": "P008",
+          "full_name": "Marcus Brody",
+          "country": "GB",
+          "role": "Chief Operating Officer",
+          "status": "Active"
+        },
+        {
+          "id": "P009",
+          "full_name": "Aisha Al-Mansoor",
+          "country": "AE",
+          "role": "Non-Executive Director",
+          "status": "Active"
+        },
+        {
+          "id": "P010",
+          "full_name": "Carlos Rodriguez",
+          "country": "PA",
+          "role": "Trustee",
+          "status": "Active"
+        },
+        {
+          "id": "P011",
+          "full_name": "Liam Gallagher",
+          "country": "GB",
+          "role": "Finance Director",
+          "status": "Active"
+        },
+        {
+          "id": "P012",
+          "full_name": "Priya Patel",
+          "country": "IN",
+          "role": "Legal Counsel",
+          "status": "Active"
+        },
+        {
+          "id": "P013",
+          "full_name": "Michael Chang",
+          "country": "US",
+          "role": "Head of Procurement",
+          "status": "Active"
+        },
+        {
+          "id": "P014",
+          "full_name": "Sophia M\u00fcller",
+          "country": "CY",
+          "role": "Compliance Officer",
+          "status": "Active"
+        },
+        {
+          "id": "P015",
+          "full_name": "Tariq Hassan",
+          "country": "AE",
+          "role": "Investment Director",
+          "status": "Active"
+        },
+        {
+          "id": "P016",
+          "full_name": "Robert Vance",
+          "country": "US",
+          "role": "Board Member",
+          "status": "Active"
+        },
+        {
+          "id": "P017",
+          "full_name": "R. Mehta",
+          "country": "IN",
+          "role": "Executive Advisor",
+          "status": "Active"
+        },
+        {
+          "id": "P018",
+          "full_name": "Sarah A. Wilson",
+          "country": "US",
+          "role": "Non-Executive Director",
+          "status": "Active"
+        },
+        {
+          "id": "P019",
+          "full_name": "Hannah Schmidt",
+          "country": "GB",
+          "role": "Audit Committee Chair",
+          "status": "Active"
+        },
+        {
+          "id": "P020",
+          "full_name": "Viktor Krumm",
+          "country": "CY",
+          "role": "Shareholder",
+          "status": "Active"
+        },
+        {
+          "id": "P021",
+          "full_name": "Karan Verma",
+          "country": "IN",
+          "role": "Operations Manager",
+          "status": "Active"
+        },
+        {
+          "id": "P022",
+          "full_name": "Zeynab Al-Farsi",
+          "country": "AE",
+          "role": "Managing Partner",
+          "status": "Active"
+        },
+        {
+          "id": "P023",
+          "full_name": "Julian Thorne",
+          "country": "GB",
+          "role": "General Counsel",
+          "status": "Active"
+        },
+        {
+          "id": "P024",
+          "full_name": "Chloe Bennett",
+          "country": "US",
+          "role": "VP Supply Chain",
+          "status": "Active"
+        },
+        {
+          "id": "P025",
+          "full_name": "Nikolai Ivanov",
+          "country": "PA",
+          "role": "Nominee Director",
+          "status": "Active"
+        }
+      ]
+    },
+    "mca_companies": {
+      "count": 1,
+      "rows": [
+        {
+          "cin": "U31908MH2012PTC230026",
+          "company_name": "3A INNOVATIVE TECHNOLOGIES PRIVATE LIMITED",
+          "authorized_capital": 100000,
+          "paid_up_capital": 100000,
+          "company_category": "Company limited by shares",
+          "company_class": "Private",
+          "company_sub_category": "Non-government company",
+          "company_status": "Active",
+          "indian_foreign_company": "India",
+          "industrial_classification": "Manufacturing (Machinery and Equipments)",
+          "listing_status": "Unlisted",
+          "nic_code": 31908,
+          "registered_office_address": "A-56, Nandkishore Industrial Est, 2nd flr,Nr Paper Box factory, Off Mahakali Caves Rd, Andh,eri East,Mumbai,Maharashtra,400093-India",
+          "registration_date": "2012-04-20",
+          "roc_code": "ROC Mumbai",
+          "state_code": "maharashtra"
+        }
+      ]
+    }
+  }
+}

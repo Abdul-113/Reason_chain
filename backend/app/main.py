@@ -2,7 +2,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.routes import health, ingestion, graph, investigation, workspace, firebase, mapping, resolution
+from app.routes import health, ingestion, graph, investigation, workspace, firebase, mapping, resolution, postgres, builder
 
 # Configure structured logging for the ingestion pipeline
 logging.basicConfig(
@@ -31,11 +31,13 @@ app.add_middleware(
 app.include_router(health.router, prefix=settings.API_V1_STR, tags=["Health"])
 app.include_router(ingestion.router, prefix=f"{settings.API_V1_STR}/ingestion", tags=["Ingestion"])
 app.include_router(firebase.router, prefix=f"{settings.API_V1_STR}/firebase", tags=["Firebase Ingestion"])
+app.include_router(builder.router, tags=["Knowledge Graph Builder"])
 app.include_router(mapping.router, prefix="", tags=["AI-Assisted Semantic Mapping"])
 app.include_router(resolution.router, prefix="", tags=["Entity Resolution & Identity Management"])
 app.include_router(graph.router, prefix=f"{settings.API_V1_STR}/graph", tags=["Knowledge Graph"])
 app.include_router(investigation.router, prefix=f"{settings.API_V1_STR}/investigation", tags=["Investigation"])
 app.include_router(workspace.router, prefix=f"{settings.API_V1_STR}/workspace", tags=["Workspace"])
+app.include_router(postgres.router)
 
 @app.get("/")
 def root_redirect():

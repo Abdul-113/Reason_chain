@@ -24,6 +24,7 @@ class CanonicalRelationshipType(str, Enum):
     VIOLATES = "VIOLATES"
     LOCATED_IN = "LOCATED_IN"
     REGISTERED_IN_STATE = "REGISTERED_IN_STATE"
+    AFFILIATED_WITH = "AFFILIATED_WITH"
     CUSTOM = "CUSTOM"
 
 

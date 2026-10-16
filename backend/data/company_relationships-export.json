@@ -1,0 +1,479 @@
+{
+  "company_links": {
+    "company_00001": {
+      "cin": "U74999MH2019PTC334643",
+      "company_name": "1ST RATE PHARMA PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00001"
+    },
+    "company_00004": {
+      "cin": "U74999MH2021PTC354862",
+      "company_name": "360DEGREE SUPPLY CHAIN MANAGEMENT PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00004"
+    },
+    "company_00005": {
+      "cin": "U31908MH2012PTC230026",
+      "company_name": "3A INNOVATIVE TECHNOLOGIES PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00005"
+    },
+    "company_00006": {
+      "cin": "U29100MH2022PTC385501",
+      "company_name": "3D SHIFT PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00006"
+    },
+    "company_00009": {
+      "cin": "U74120MH2016PTC272216",
+      "company_name": "3M MEDIA WORKS PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00009"
+    },
+    "company_00022": {
+      "cin": "L45202MH2011PLC214834",
+      "company_name": "A B INFRABUILD LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00022"
+    },
+    "company_00026": {
+      "cin": "U72900MH1991PTC063432",
+      "company_name": "A T E PRINT SOLUTIONS PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00026"
+    },
+    "company_00027": {
+      "cin": "U27100MH2006PTC160869",
+      "company_name": "A TO Z ALLOYS PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00027"
+    },
+    "company_00030": {
+      "cin": "U45208MH2015PTC266343",
+      "company_name": "A.D. KASLIWAL ESTATES PRIVATE LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00030"
+    },
+    "company_00033": {
+      "cin": "U01133MH2025PTC445265",
+      "company_name": "A.N. BACHHAV FARMERS PRODUCER COMPANY LIMITED",
+      "mock_relationships_present": true,
+      "source_path": "/companies/company_00033"
+    }
+  },
+  "contracts": {
+    "contract_00001": {
+      "company_ref": "company_00001",
+      "contract_reference": "CTR-MOCK-0001",
+      "contract_type": "Supply Agreement",
+      "end_date": "2026-12-31",
+      "mock_record": true,
+      "start_date": "2024-01-01",
+      "status": "Active",
+      "supplier_id": "supplier_00001"
+    },
+    "contract_00002": {
+      "company_ref": "company_00005",
+      "contract_reference": "CTR-MOCK-0002",
+      "contract_type": "Technology Supply Agreement",
+      "end_date": "2027-03-31",
+      "mock_record": true,
+      "start_date": "2025-04-01",
+      "status": "Active",
+      "supplier_id": "supplier_00002"
+    },
+    "contract_00003": {
+      "company_ref": "company_00022",
+      "contract_reference": "CTR-MOCK-0003",
+      "contract_type": "Engineering Supply Agreement",
+      "end_date": "2026-06-30",
+      "mock_record": true,
+      "start_date": "2024-07-01",
+      "status": "Active",
+      "supplier_id": "supplier_00003"
+    },
+    "contract_00004": {
+      "company_ref": "company_00027",
+      "contract_reference": "CTR-MOCK-0004",
+      "contract_type": "Raw Material Agreement",
+      "end_date": "2027-01-14",
+      "mock_record": true,
+      "start_date": "2025-01-15",
+      "status": "Active",
+      "supplier_id": "supplier_00004"
+    },
+    "contract_00005": {
+      "company_ref": "company_00004",
+      "contract_reference": "CTR-MOCK-0005",
+      "contract_type": "Logistics Agreement",
+      "end_date": "2026-05-31",
+      "mock_record": true,
+      "start_date": "2025-06-01",
+      "status": "Active",
+      "supplier_id": "supplier_00005"
+    }
+  },
+  "external_companies": {
+    "external_company_00001": {
+      "company_name": "Orion Trading International",
+      "mock_record": true,
+      "registration_country": "India",
+      "status": "Active"
+    },
+    "external_company_00002": {
+      "company_name": "NorthStar Global Holdings",
+      "mock_record": true,
+      "registration_country": "Singapore",
+      "status": "Active"
+    }
+  },
+  "metadata": {
+    "authoritative": false,
+    "company_targets_are_real_source_records": true,
+    "data_origin": "synthetic_test_data",
+    "purpose": "ReasonChain Knowledge Graph development and multi-hop reasoning tests",
+    "schema_version": "1.0",
+    "warning": "All entities and relationships in this branch are mock/synthetic. They must not be interpreted as real-world claims."
+  },
+  "people": {
+    "person_00001": {
+      "mock_record": true,
+      "name": "Rahul Mehta",
+      "nationality": "India",
+      "role": "Director"
+    },
+    "person_00002": {
+      "mock_record": true,
+      "name": "Priya Shah",
+      "nationality": "India",
+      "role": "Director"
+    },
+    "person_00003": {
+      "mock_record": true,
+      "name": "Arjun Nair",
+      "nationality": "India",
+      "role": "Director"
+    },
+    "person_00004": {
+      "mock_record": true,
+      "name": "Neha Kapoor",
+      "nationality": "India",
+      "role": "Director"
+    },
+    "person_00005": {
+      "mock_record": true,
+      "name": "Vikram Joshi",
+      "nationality": "India",
+      "role": "Director"
+    },
+    "person_00006": {
+      "mock_record": true,
+      "name": "Sneha Rao",
+      "nationality": "India",
+      "role": "Director"
+    }
+  },
+  "relationships": {
+    "relationship_00001": {
+      "confidence": 0.97,
+      "from_entity_id": "person_00001",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Director",
+      "to_cin": "U74999MH2019PTC334643",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00001",
+      "valid_from": "2023-01-01"
+    },
+    "relationship_00002": {
+      "confidence": 0.94,
+      "from_entity_id": "person_00001",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Independent Director",
+      "to_cin": "L45202MH2011PLC214834",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00022",
+      "valid_from": "2024-01-01"
+    },
+    "relationship_00003": {
+      "confidence": 0.96,
+      "from_entity_id": "person_00002",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Director",
+      "to_cin": "U74999MH2021PTC354862",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00004",
+      "valid_from": "2022-06-01"
+    },
+    "relationship_00004": {
+      "confidence": 0.92,
+      "from_entity_id": "person_00002",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Board Member",
+      "to_cin": "U27100MH2006PTC160869",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00027",
+      "valid_from": "2023-09-01"
+    },
+    "relationship_00005": {
+      "confidence": 0.95,
+      "from_entity_id": "person_00003",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Managing Director",
+      "to_cin": "U31908MH2012PTC230026",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00005",
+      "valid_from": "2020-01-01"
+    },
+    "relationship_00006": {
+      "confidence": 0.93,
+      "from_entity_id": "person_00004",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Director",
+      "to_cin": "U29100MH2022PTC385501",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00006",
+      "valid_from": "2023-03-01"
+    },
+    "relationship_00007": {
+      "confidence": 0.91,
+      "from_entity_id": "person_00005",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Director",
+      "to_cin": "U74120MH2016PTC272216",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00009",
+      "valid_from": "2022-08-01"
+    },
+    "relationship_00008": {
+      "confidence": 0.9,
+      "from_entity_id": "person_00006",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Director",
+      "to_cin": "U45208MH2015PTC266343",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00030",
+      "valid_from": "2021-05-01"
+    },
+    "relationship_00009": {
+      "active": true,
+      "confidence": 0.96,
+      "contract_id": "contract_00001",
+      "from_entity_id": "supplier_00001",
+      "from_entity_type": "Supplier",
+      "mock_record": true,
+      "relationship_type": "SUPPLIES",
+      "to_cin": "U74999MH2019PTC334643",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00001"
+    },
+    "relationship_00010": {
+      "active": true,
+      "confidence": 0.95,
+      "contract_id": "contract_00002",
+      "from_entity_id": "supplier_00002",
+      "from_entity_type": "Supplier",
+      "mock_record": true,
+      "relationship_type": "SUPPLIES",
+      "to_cin": "U31908MH2012PTC230026",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00005"
+    },
+    "relationship_00011": {
+      "active": true,
+      "confidence": 0.94,
+      "contract_id": "contract_00003",
+      "from_entity_id": "supplier_00003",
+      "from_entity_type": "Supplier",
+      "mock_record": true,
+      "relationship_type": "SUPPLIES",
+      "to_cin": "L45202MH2011PLC214834",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00022"
+    },
+    "relationship_00012": {
+      "active": true,
+      "confidence": 0.93,
+      "contract_id": "contract_00004",
+      "from_entity_id": "supplier_00004",
+      "from_entity_type": "Supplier",
+      "mock_record": true,
+      "relationship_type": "SUPPLIES",
+      "to_cin": "U27100MH2006PTC160869",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00027"
+    },
+    "relationship_00013": {
+      "active": true,
+      "confidence": 0.91,
+      "contract_id": "contract_00005",
+      "from_entity_id": "supplier_00005",
+      "from_entity_type": "Supplier",
+      "mock_record": true,
+      "relationship_type": "SUPPLIES",
+      "to_cin": "U74999MH2021PTC354862",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00004"
+    },
+    "relationship_00014": {
+      "confidence": 0.89,
+      "from_cin": "U74999MH2021PTC354862",
+      "from_entity_type": "Company",
+      "from_source": "companies",
+      "from_source_key": "company_00004",
+      "mock_record": true,
+      "ownership_percentage": 62.5,
+      "relationship_type": "OWNS",
+      "to_cin": "U29100MH2022PTC385501",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00006"
+    },
+    "relationship_00015": {
+      "confidence": 0.87,
+      "from_cin": "L45202MH2011PLC214834",
+      "from_entity_type": "Company",
+      "from_source": "companies",
+      "from_source_key": "company_00022",
+      "mock_record": true,
+      "ownership_percentage": 51,
+      "relationship_type": "OWNS",
+      "to_cin": "U45208MH2015PTC266343",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00030"
+    },
+    "relationship_00016": {
+      "affiliation_reason": "Shared synthetic parent group",
+      "confidence": 0.84,
+      "from_cin": "U72900MH1991PTC063432",
+      "from_entity_type": "Company",
+      "from_source": "companies",
+      "from_source_key": "company_00026",
+      "mock_record": true,
+      "relationship_type": "AFFILIATED_WITH",
+      "to_cin": "U01133MH2025PTC445265",
+      "to_entity_type": "Company",
+      "to_source": "companies",
+      "to_source_key": "company_00033"
+    },
+    "relationship_00017": {
+      "confidence": 0.88,
+      "from_entity_id": "person_00002",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Former Director",
+      "to_entity_id": "external_company_00001",
+      "to_entity_type": "ExternalCompany",
+      "valid_from": "2021-01-01",
+      "valid_to": "2024-12-31"
+    },
+    "relationship_00018": {
+      "confidence": 0.99,
+      "from_entity_id": "external_company_00001",
+      "from_entity_type": "ExternalCompany",
+      "mock_record": true,
+      "reason": "Synthetic sanctions-chain test case",
+      "relationship_type": "SANCTIONED_BY",
+      "to_entity_id": "sanction_00001",
+      "to_entity_type": "Sanction"
+    },
+    "relationship_00019": {
+      "confidence": 0.99,
+      "from_entity_id": "external_company_00002",
+      "from_entity_type": "ExternalCompany",
+      "mock_record": true,
+      "reason": "Synthetic sanctions-chain test case",
+      "relationship_type": "SANCTIONED_BY",
+      "to_entity_id": "sanction_00002",
+      "to_entity_type": "Sanction"
+    },
+    "relationship_00020": {
+      "confidence": 0.86,
+      "from_entity_id": "person_00005",
+      "from_entity_type": "Person",
+      "mock_record": true,
+      "relationship_type": "DIRECTOR_OF",
+      "role": "Former Director",
+      "to_entity_id": "external_company_00002",
+      "to_entity_type": "ExternalCompany",
+      "valid_from": "2020-01-01",
+      "valid_to": "2023-12-31"
+    }
+  },
+  "sanctions": {
+    "sanction_00001": {
+      "jurisdiction": "Synthetic",
+      "list_name": "Mock Compliance Watchlist A",
+      "mock_record": true,
+      "status": "Listed"
+    },
+    "sanction_00002": {
+      "jurisdiction": "Synthetic",
+      "list_name": "Mock Regulatory Risk List B",
+      "mock_record": true,
+      "status": "Listed"
+    }
+  },
+  "suppliers": {
+    "supplier_00001": {
+      "country": "India",
+      "mock_record": true,
+      "supplier_category": "Pharmaceutical Raw Materials",
+      "supplier_name": "Vertex Industrial Supplies"
+    },
+    "supplier_00002": {
+      "country": "India",
+      "mock_record": true,
+      "supplier_category": "Electronic Components",
+      "supplier_name": "Orion Components"
+    },
+    "supplier_00003": {
+      "country": "India",
+      "mock_record": true,
+      "supplier_category": "Engineering Materials",
+      "supplier_name": "Metro Engineering Works"
+    },
+    "supplier_00004": {
+      "country": "India",
+      "mock_record": true,
+      "supplier_category": "Metals",
+      "supplier_name": "BluePeak Industrial Materials"
+    },
+    "supplier_00005": {
+      "country": "India",
+      "mock_record": true,
+      "supplier_category": "Logistics",
+      "supplier_name": "Apex Logistics Solutions"
+    }
+  }
+}

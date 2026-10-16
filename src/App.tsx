@@ -16,9 +16,9 @@ import DemoModal from './components/DemoModal';
 // ==========================================
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentView, setCurrentView] = useState<'landing' | 'onboarding' | 'workspace'>('landing');
-  const [activeNavTab, setActiveNavTab] = useState('Overview');
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [currentView, setCurrentView] = useState<'landing' | 'onboarding' | 'workspace'>('workspace');
+  const [activeNavTab, setActiveNavTab] = useState('Knowledge Graph');
   
   // Modals state
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -40,21 +40,8 @@ export default function App() {
 
   // Check workspace onboarding status from backend
   const checkWorkspaceAndNavigate = async () => {
-    try {
-      const res = await fetch('http://localhost:8000/api/workspace/status');
-      if (res.ok) {
-        const data = await res.json();
-        if (data.onboarding_complete) {
-          setCurrentView('workspace');
-          setActiveNavTab('Overview');
-          return;
-        }
-      }
-    } catch (err) {
-      // Ignore network errors in static demo mode
-    }
-    // Default to onboarding for new workspaces
-    setCurrentView('onboarding');
+    setCurrentView('workspace');
+    setActiveNavTab('KG Builder');
   };
 
   // Handle Start Investigation Flow
@@ -70,7 +57,8 @@ export default function App() {
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
     setIsLoginOpen(false);
-    checkWorkspaceAndNavigate();
+    setCurrentView('workspace');
+    setActiveNavTab('KG Builder');
   };
 
   // Handle Logout

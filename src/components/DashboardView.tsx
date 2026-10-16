@@ -24,7 +24,8 @@ import {
   ArrowRight,
   Plus,
   LayoutDashboard,
-  Server
+  Server,
+  Sparkles
 } from 'lucide-react';
 
 import KnowledgeGraphPanel from './graph/KnowledgeGraphPanel';
@@ -36,6 +37,7 @@ import EntitiesView from './EntitiesView';
 import RulesView from './RulesView';
 import AnalyticsView from './AnalyticsView';
 import AuditLogView from './AuditLogView';
+import KnowledgeGraphBuilder from './KnowledgeGraphBuilder';
 
 import {
   mockInvestigations,
@@ -196,9 +198,10 @@ export default function DashboardView({ onLogout, activeNavTab: externalTab, set
 
   const sidebarLinks = [
     { name: 'Overview', icon: LayoutDashboard },
-    { name: 'Investigate', icon: Cpu },
+    { name: 'KG Builder', icon: Sparkles },
     { name: 'Knowledge Graph', icon: Network },
     { name: 'Data Sources', icon: Server },
+    { name: 'Investigate', icon: Cpu },
     { name: 'Entities', icon: Layers },
     { name: 'Proofs', icon: FileCheck },
     { name: 'Rules', icon: ShieldCheck },
@@ -324,8 +327,13 @@ export default function DashboardView({ onLogout, activeNavTab: externalTab, set
         </header>
 
         {/* FEATURE SEPARATION: SWITCH CONTENT BASED ON ACTIVE SIDEBAR TAB */}
-        <main className="p-8 space-y-8 flex-1">
-          {activeTab === 'Investigate' ? (
+        <main className={`flex-1 ${activeTab === 'Knowledge Graph' ? 'p-4 flex flex-col min-h-0 overflow-hidden' : 'p-8 space-y-8'}`}>
+          {activeTab === 'KG Builder' ? (
+            <KnowledgeGraphBuilder
+              onNavigateToExplorer={() => setActiveTab('Knowledge Graph')}
+              onNavigateToDataSources={() => setActiveTab('Data Sources')}
+            />
+          ) : activeTab === 'Investigate' ? (
             <InvestigateView
               onNavigateToGraph={() => setActiveTab('Knowledge Graph')}
               onNavigateToProofs={() => setActiveTab('Proofs')}
@@ -336,6 +344,7 @@ export default function DashboardView({ onLogout, activeNavTab: externalTab, set
                 if (source) setGraphInitialSource(source);
                 setActiveTab('Knowledge Graph');
               }}
+              onNavigateToBuilder={() => setActiveTab('KG Builder')}
             />
           ) : activeTab === 'Entities' ? (
             <EntitiesView />

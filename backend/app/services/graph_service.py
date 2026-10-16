@@ -52,6 +52,9 @@ class GraphService:
     @classmethod
     def _populate_from_canonical_sources(cls):
         """Populate initial canonical graph from relational mapper and Firebase if available."""
+        all_entities = []
+        all_relationships = []
+
         # 1. Build relational mapped dataset
         try:
             norm_companies = normalize_companies(extract_companies())
@@ -76,33 +79,33 @@ class GraphService:
                 norm_ownership=norm_ownership,
             )
 
-            all_entities = list(payload.entities)
-            all_relationships = list(payload.relationships)
+            all_entities.extend(payload.entities)
+            all_relationships.extend(payload.relationships)
+        except Exception as rel_ex:
+            logger.warning(f"[GRAPH SERVICE] Relational canonical population notice: {rel_ex}")
 
-            # 2. Build Firebase mapped dataset
-            try:
-                from app.ingestion.firebase_mapper import build_firebase_canonical_payload
-                fb_payload = build_firebase_canonical_payload(
-                    path="/companies",
-                    limit=100,
-                    include_relationships=True,
-                    include_nested_entities=True,
-                )
-                if fb_payload and fb_payload.entities:
-                    all_entities.extend(fb_payload.entities)
-                    all_relationships.extend(fb_payload.relationships)
-                    logger.info(
-                        f"[GRAPH SERVICE] Merged {len(fb_payload.entities)} entities and {len(fb_payload.relationships)} relationships from Firebase"
-                    )
-            except Exception as fb_ex:
-                logger.warning(f"[GRAPH SERVICE] Firebase canonical population notice: {fb_ex}")
-
-            GraphProjectionService.set_cache(all_entities, all_relationships)
-            logger.info(
-                f"[GRAPH SERVICE] Total cached: {len(all_entities)} entities and {len(all_relationships)} relationships"
+        # 2. Build Firebase mapped dataset
+        try:
+            from app.ingestion.firebase_mapper import build_firebase_canonical_payload
+            fb_payload = build_firebase_canonical_payload(
+                path="/companies",
+                limit=100,
+                include_relationships=True,
+                include_nested_entities=True,
             )
-        except Exception as ex:
-            logger.warning(f"[GRAPH SERVICE] Notice populating initial graph: {ex}")
+            if fb_payload and fb_payload.entities:
+                all_entities.extend(fb_payload.entities)
+                all_relationships.extend(fb_payload.relationships)
+                logger.info(
+                    f"[GRAPH SERVICE] Merged {len(fb_payload.entities)} entities and {len(fb_payload.relationships)} relationships from Firebase"
+                )
+        except Exception as fb_ex:
+            logger.warning(f"[GRAPH SERVICE] Firebase canonical population notice: {fb_ex}")
+
+        GraphProjectionService.set_cache(all_entities, all_relationships)
+        logger.info(
+            f"[GRAPH SERVICE] Total cached: {len(all_entities)} entities and {len(all_relationships)} relationships"
+        )
 
     @staticmethod
     def get_full_graph() -> Dict[str, Any]:

@@ -19,12 +19,29 @@ def _get_connection():
     """Get a database connection — Supabase/PostgreSQL (primary) or SQLite fallback."""
     import os
     if settings.DATABASE_URL:
+        # Try psycopg v3 first, then psycopg2
         try:
-            import psycopg2
-            conn = psycopg2.connect(settings.DATABASE_URL, connect_timeout=5)
+            import psycopg
+            conn = psycopg.connect(settings.DATABASE_URL, connect_timeout=10, autocommit=True)
+            try:
+                with conn.cursor() as cur:
+                    cur.execute("SET search_path TO reasonchain_import, public;")
+            except Exception:
+                pass
             return conn, "postgresql"
-        except Exception as e:
-            logger.warning(f"[INGESTION] DATABASE_URL connection failed: {e}. Trying host/port configuration.")
+        except Exception as e_v3:
+            try:
+                import psycopg2
+                conn = psycopg2.connect(settings.DATABASE_URL, connect_timeout=5)
+                conn.autocommit = True
+                try:
+                    cur = conn.cursor()
+                    cur.execute("SET search_path TO reasonchain_import, public;")
+                except Exception:
+                    pass
+                return conn, "postgresql"
+            except Exception as e:
+                logger.warning(f"[INGESTION] DATABASE_URL connection failed: {e_v3} / {e}. Trying host/port configuration.")
 
     target_host = "127.0.0.1" if settings.POSTGRES_HOST == "localhost" else settings.POSTGRES_HOST
     if is_postgres_port_open(target_host, settings.POSTGRES_PORT):
